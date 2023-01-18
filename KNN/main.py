@@ -7,9 +7,9 @@ def main():
     label2 = Label_Item(0, 0.6, 0.6, "item2")
     list = load_labeled_examples()
     model = KNN()
-    model.train(list)
+    model.train(list, False)
     
-    model.classify(label1)
+    #model.classify(label1)
 
     print()
 

@@ -13,14 +13,28 @@ class KNN:
         self.store = []
 
     def train(self, train_dataset = placeholder_dataset, store_all = True):
-        if (self.k > len(train_dataset)):
-            raise Exception("Incompatible training set: K cannot be greater than the length of the training dataset")
-
         if store_all:
             for item in train_dataset:
                 self.store.append(item)
         else:
-            pass
+            storedClasses_soFar = {}
+            #className_to_distanceCount {class_name: count}
+            for item in train_dataset:
+                if (storedClasses_soFar.get(item.class_name) is None):
+                    storedClasses_soFar[item.class_name] = 1
+
+                elif storedClasses_soFar[item.class_name] > self.k:
+                    if self.classify(item) != item.class_name:
+                        storedClasses_soFar[item.class_name] += 1
+                        self.store.append(item)
+
+                else:
+                    storedClasses_soFar[item.class_name] += 1
+                    self.store.append(item)
+
+        if (self.k > len(self.store)):
+            raise Exception("Incompatible training set: K cannot be greater than the length of the training dataset")
+
 
     def classify(self, item):
         distance_item = {}
