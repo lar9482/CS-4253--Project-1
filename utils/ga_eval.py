@@ -34,8 +34,8 @@ will be necessary.
 
 import numpy as np
 import itertools
-import shekel_params
-import langermann_params
+import utils.shekel_params as shekel_params
+import utils.langermann_params as langermann_params
 
 _norm = lambda x: np.linalg.norm(x, 1)**2
 _inf_norm = lambda x: np.max(x**2)
