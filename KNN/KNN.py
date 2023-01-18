@@ -20,8 +20,24 @@ class KNN:
             pass
 
     def classify(self, item):
+        distance_item = {}
+        for stored_item in self.store:
+            distance = self.calc_distance(item, stored_item)
+            distance_item[distance] = stored_item
+        
+        allDistances = list(distance_item.keys())
+        allDistances.sort()
 
-        pass
+        className_to_distanceCount = {}
+        for index in range(0, self.k):
+            close_item = distance_item[allDistances[index]]
+            if className_to_distanceCount.get(close_item.class_name) is None:
+                className_to_distanceCount[close_item.class_name] = 1
+            else:
+                className_to_distanceCount[close_item.class_name] += 1
+        
+        return max(className_to_distanceCount, key=className_to_distanceCount.get)
+        
 
     def eval(self, test_dataset = placeholder_dataset):
         pass
