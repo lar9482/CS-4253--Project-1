@@ -9,15 +9,12 @@ class KNN:
             raise Exception("The inputted k must be odd")
 
         self.k = k
-        self.store = {}
+        self.store = []
 
     def train(self, train_dataset = placeholder_dataset, store_all = True):
         if store_all:
             for item in train_dataset:
-                if self.store.get(item.class_name) is None:
-                    self.store[item.class_name] = [item]
-                else:
-                    self.store[item.class_name].append(item)
+                self.store.append(item)
         else:
             pass
 
