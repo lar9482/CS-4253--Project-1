@@ -1,4 +1,5 @@
 from Item import Item
+import math
 
 placeholder_dataset = [Item(0, [0, 0])]
 placeholder_item = Item(0, [0, 0])
@@ -18,8 +19,20 @@ class KNN:
         else:
             pass
 
+    def classify(self, item):
+
+        pass
+
     def eval(self, test_dataset = placeholder_dataset):
         pass
 
-    def calc_distance(self):
-        pass
+    def calc_distance(self, item1, item2):
+        if len(item1.attributes) != len(item2.attributes):
+            raise Exception("Incompatible items: Both items need the same number of attributes")
+        
+        distance = 0
+        for i in range(0, len(item1.attributes)):
+            distance += (item1.attributes[i] - item2.attributes[i]) ** 2
+        
+        return math.sqrt(distance)
+        

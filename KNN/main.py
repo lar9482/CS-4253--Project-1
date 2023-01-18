@@ -9,6 +9,7 @@ def main():
     model = KNN()
 
     model.train(list)
+    
     print()
 
 if __name__ == "__main__":
