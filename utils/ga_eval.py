@@ -226,6 +226,7 @@ to be used only internally.
     from matplotlib import cm
     from matplotlib.ticker import LinearLocator, FormatStrFormatter
     from mpl_toolkits.mplot3d import Axes3D
+
     Z = np.zeros(X.shape)
     for i, j in itertools.product(range(X.shape[0]), range(X.shape[1])):
         Z[i, j] = f(np.array([X[i,j], Y[i,j]]))
@@ -245,6 +246,8 @@ to be used only internally.
 
 
 if __name__ == '__main__':
+    import matplotlib
+    print(matplotlib.__version__)
     _plot_f(sphere, *_mesh(-5, 5, -5, 5), title="The Sphere Function")
     _plot_f(griew, *_mesh(0, 200, 0, 200), title="Griewank's function")
     _plot_f(shekel, *_mesh(0, 10, 0, 10), title="Modified Shekel's Foxholes")

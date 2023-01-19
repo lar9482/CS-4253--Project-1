@@ -4,7 +4,7 @@ from KNN import KNN
 
 def main():
 
-    k = 5
+    k = 15
     list = load_labeled_examples()
     model = KNN(k)
     model.train(list, False)
