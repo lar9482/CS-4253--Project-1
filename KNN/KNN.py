@@ -72,7 +72,13 @@ class KNN:
         
 
     def eval(self, test_dataset = placeholder_dataset):
-        pass
+        correct_guesses = 0
+        for item in test_dataset:
+            if (item.class_name == self.classify(item)):
+                correct_guesses += 1
+        
+        return (correct_guesses / len(test_dataset))
+
 
     def calc_distance(self, item1, item2):
         if len(item1.attributes) != len(item2.attributes):
