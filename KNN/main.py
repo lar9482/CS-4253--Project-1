@@ -5,16 +5,12 @@ from N_Fold import N_Fold
 
 def main():
 
-    k = 131
-    n = 5
+    k = 5
+    n = 100
     list = load_labeled_examples()
     (a, b) = N_Fold(list, n, k, False)
     print(a)
     print(b)
-
-    
-    #model.classify(label1)
-
     print()
 
 if __name__ == "__main__":

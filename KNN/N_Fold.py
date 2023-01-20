@@ -1,11 +1,15 @@
+import random
 from KNN import KNN
 
 def N_Fold(dataset, n = 5, k = 15, storeAll = True):
     if (len(dataset) % n != 0):
         raise Exception("Incompatible n: The inputted n parameter must be able to evenly divide " + 
                         "the dataset.")
+
+    random.shuffle(dataset)
     startIndex = 0
     endIndex = n
+    iterations = 0
 
     accu_train = 0
     accu_test = 0
@@ -16,12 +20,19 @@ def N_Fold(dataset, n = 5, k = 15, storeAll = True):
         model = KNN(k)
         model.train(dataset_train, storeAll)
 
-        accu_train += model.eval(dataset_train)
-        accu_test += model.eval(dataset_test)
+        model_train_accu = model.eval(dataset_train)
+        model_test_accu = model.eval(dataset_test)
+
+        accu_train += model_train_accu
+        accu_test += model_test_accu
 
         startIndex = endIndex
         endIndex += n
+        iterations += 1
         print(startIndex)
+        print("Training Accuracy: %s" % (model_train_accu))
+        print("Testing Accuracy: %s" % (model_test_accu))
+        print()
         
 
-    return ((accu_train / (n)), (accu_test / (n)))
+    return ((accu_train / (iterations)), (accu_test / (iterations)))
