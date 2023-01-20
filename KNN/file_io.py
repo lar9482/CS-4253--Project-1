@@ -1,7 +1,7 @@
 import os
 import sys
 
-from Label_Item import Label_Item
+from Data_Items.Label_Item import Label_Item
 
 def load_labeled_examples():
     labeled_item_list = []

@@ -1,4 +1,4 @@
-from Item import Item
+from Data_Items.Item import Item
 
 class Label_Item(Item):
     def __init__(self, class_name, x, y, item_name):
