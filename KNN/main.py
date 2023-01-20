@@ -5,13 +5,15 @@ from N_Fold import N_Fold
 
 def main():
 
-    k = 5
-    n = 100
+    # k = 25
+    # n = 250
+    # list = load_labeled_examples()
+    # (a, b) = N_Fold(list, n, k, True)
+    # print(a)
+    # print(b)
+    # print()
+
     list = load_labeled_examples()
-    (a, b) = N_Fold(list, n, k, False)
-    print(a)
-    print(b)
-    print()
 
 if __name__ == "__main__":
     main()
