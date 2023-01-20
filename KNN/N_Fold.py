@@ -25,10 +25,10 @@ def N_Fold(dataset, n = 5, k = 15, storeAll = True):
         startIndex = endIndex
         endIndex += difference
         iterations += 1
-        print(startIndex)
-        print("Training Accuracy: %s" % (model_train_accu))
-        print("Testing Accuracy: %s" % (model_test_accu))
-        print()
+        # print(startIndex)
+        # print("Training Accuracy: %s" % (model_train_accu))
+        # print("Testing Accuracy: %s" % (model_test_accu))
+        # print()
         
 
     return ((accu_train / (iterations)), (accu_test / (iterations)))
