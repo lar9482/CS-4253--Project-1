@@ -1,4 +1,4 @@
-from Item import Item
+from Data_Items.Item import Item
 import math
 
 placeholder_dataset = [Item(0, [0, 0])]
@@ -13,9 +13,12 @@ class KNN:
         self.store = []
 
     def train(self, train_dataset = placeholder_dataset, store_all = True):
+        #Store all variant
         if store_all:
             for item in train_dataset:
                 self.store.append(item)
+
+        #Store errors variant
         else:
             storedClasses_soFar = {}
             #className_to_distanceCount {class_name: count}
