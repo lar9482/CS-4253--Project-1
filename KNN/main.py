@@ -30,7 +30,7 @@ def N_Fold_labeled_examples(lock, shared_accuracy_list, n, k, store_all = True, 
     lock.release()
     
 
-def concurrent_run_labeled_examples(nMin, nMax, kMin, kMax, store_all = True, shuffle = True):
+def concurrent_run_labeled_examples(nMin, nMax, kMin, kMax, store_all = True, shuffle = True, file_name = "labeled-accuracies.txt"):
     start_time = time.time()
     all_accuracies = []
 
@@ -56,9 +56,9 @@ def concurrent_run_labeled_examples(nMin, nMax, kMin, kMax, store_all = True, sh
 
         all_accuracies = list(shared_accuracy_list)
 
-    save_labeled_accuracies(all_accuracies, store_all, shuffle)
     print(time.time() - start_time)
-    print()
+    save_labeled_accuracies(all_accuracies, store_all, shuffle, file_name)
+    
 
 def main():
     # nMin = 5
@@ -76,7 +76,7 @@ def main():
     store_all = True
     shuffle = True
 
-    concurrent_run_labeled_examples(nMin, nMax, kMin, kMax, store_all, shuffle)
+    concurrent_run_labeled_examples(nMin, nMax, kMin, kMax, store_all, shuffle, "labeled-accuracies.txt")
 
 if __name__ == "__main__":
     main()
