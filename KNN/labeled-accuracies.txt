@@ -1,0 +1,9 @@
+Store_All: True
+Shuffle: True
+
+N: 5
+K: 5
+Average Training Accuracy: 0.9784375000000001
+Average Testing Accuracy: 0.94875
+
+

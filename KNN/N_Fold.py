@@ -2,7 +2,9 @@ import random
 from KNN import KNN
 
 def N_Fold(dataset, n = 5, k = 15, storeAll = True):
+
     iterations = 0
+    #Difference measures the roughly equal partition size of the dataset
     difference = int((len(dataset) - (len(dataset) % n)) / n)
     startIndex = 0
     endIndex = difference
@@ -28,7 +30,5 @@ def N_Fold(dataset, n = 5, k = 15, storeAll = True):
         print(startIndex)
         print("Training Accuracy: %s" % (model_train_accu))
         print("Testing Accuracy: %s" % (model_test_accu))
-        print()
         
-
     return ((accu_train / (iterations)), (accu_test / (iterations)))

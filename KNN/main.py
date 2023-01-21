@@ -1,5 +1,5 @@
 from Data_Items.Label_Item import Label_Item
-from file_io import load_labeled_examples
+from file_io import load_labeled_examples, save_labeled_accuracies
 from KNN import KNN
 from N_Fold import N_Fold
 
@@ -8,18 +8,25 @@ import time
 
 from multiprocessing import Process, Lock, Manager
 
-def N_Fold_labeled_examples(lock, concurrent_list, n, k, store_all = True, shuffle = True):
+def N_Fold_labeled_examples(lock, shared_accuracy_list, n, k, store_all = True, shuffle = True):
 
+    #Loading in the labeled examples dataset
     dataset = load_labeled_examples()
+
+    #shuffling the dataset if required to.
     if (shuffle):
         random.shuffle(dataset)
 
+    #Running N fold cross validation
     (train_accu, test_accu) = N_Fold(dataset, n, k, store_all)
+
     print("Average Training Accuracy: %s" % (train_accu))
     print("Average Testing Accuracy: %s" % (test_accu))
 
+    #Add the training/testing accuracies along with the n/k parameters to the shared list
+    #among the processes.
     lock.acquire()
-    concurrent_list.append((train_accu, test_accu, n, k))
+    shared_accuracy_list.append((train_accu, test_accu, n, k))
     lock.release()
     
 
@@ -31,14 +38,14 @@ def concurrent_run_labeled_examples(nMin, nMax, kMin, kMax, store_all = True, sh
         
         all_processes = []
         lock = manager.Lock()
-        concurrent_list = manager.list()
+        shared_accuracy_list = manager.list()
 
-        for n in range(nMin, nMax):
-            for k in range(kMin, kMax):
+        for n in range(nMin, nMax+1):
+            for k in range(kMin, kMax+1):
                 if (k % 2 == 0):
                     continue
 
-                process = Process(target=N_Fold_labeled_examples, args=(lock, concurrent_list, n, k, store_all, shuffle))
+                process = Process(target=N_Fold_labeled_examples, args=(lock, shared_accuracy_list, n, k, store_all, shuffle))
                 all_processes.append(process)
             
         for process in all_processes:
@@ -47,17 +54,24 @@ def concurrent_run_labeled_examples(nMin, nMax, kMin, kMax, store_all = True, sh
         for process in all_processes:
             process.join()
 
-        all_accuracies = list(concurrent_list)
+        all_accuracies = list(shared_accuracy_list)
 
+    save_labeled_accuracies(all_accuracies, store_all, shuffle)
     print(time.time() - start_time)
     print()
 
 def main():
+    # nMin = 5
+    # nMax = 10
+
+    # kMin = 5
+    # kMax = 50
+
     nMin = 5
-    nMax = 10
+    nMax = 5
 
     kMin = 5
-    kMax = 50
+    kMax = 5
 
     store_all = True
     shuffle = True
