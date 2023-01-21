@@ -6,47 +6,63 @@ from N_Fold import N_Fold
 import random
 import time
 
-from multiprocessing import Process
+from multiprocessing import Process, Lock, Manager
 
-def N_Fold_labeled_examples(k, n, store_all = True, shuffle = True):
+def N_Fold_labeled_examples(lock, concurrent_list, n, k, store_all = True, shuffle = True):
 
     dataset = load_labeled_examples()
     if (shuffle):
         random.shuffle(dataset)
+
     (train_accu, test_accu) = N_Fold(dataset, n, k, store_all)
     print("Average Training Accuracy: %s" % (train_accu))
     print("Average Testing Accuracy: %s" % (test_accu))
 
-def concurrent_run_labeled_examples(kMin, kMax, nMin, nMax, store_all = True, shuffle = True):
-    start_time = time.time()
-    all_processes = []
-    for n in range(nMin, nMax+1):
-        for k in range(kMin, kMax):
-            if (k % 2 == 0):
-                continue
+    lock.acquire()
+    concurrent_list.append((train_accu, test_accu, n, k))
+    lock.release()
+    
 
-            process = Process(target=N_Fold_labeled_examples, args=(k, n, store_all, shuffle))
-            all_processes.append(process)
+def concurrent_run_labeled_examples(nMin, nMax, kMin, kMax, store_all = True, shuffle = True):
+    start_time = time.time()
+    all_accuracies = []
+
+    with Manager() as manager:
+        
+        all_processes = []
+        lock = manager.Lock()
+        concurrent_list = manager.list()
+
+        for n in range(nMin, nMax):
+            for k in range(kMin, kMax):
+                if (k % 2 == 0):
+                    continue
+
+                process = Process(target=N_Fold_labeled_examples, args=(lock, concurrent_list, n, k, store_all, shuffle))
+                all_processes.append(process)
             
-            
+        for process in all_processes:
+            process.start()
     
-    for process in all_processes:
-        process.start()
-    
-    for process in all_processes:
-        process.join()
+        for process in all_processes:
+            process.join()
+
+        all_accuracies = list(concurrent_list)
 
     print(time.time() - start_time)
     print()
 
 def main():
-    kMin = 5
-    kMax = 25
     nMin = 5
     nMax = 10
-    store_all = False
+
+    kMin = 5
+    kMax = 50
+
+    store_all = True
     shuffle = True
-    concurrent_run_labeled_examples(kMin, kMax, nMin, nMax, store_all, shuffle)
+
+    concurrent_run_labeled_examples(nMin, nMax, kMin, kMax, store_all, shuffle)
 
 if __name__ == "__main__":
     main()
