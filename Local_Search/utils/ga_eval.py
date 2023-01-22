@@ -34,6 +34,8 @@ will be necessary.
 
 import numpy as np
 import itertools
+# from shekel_params import rand_holes, rand_weights, sample_holes, sample_weights
+# from langermann_params import rand_a, rand_c, sample_a, sample_c
 from utils.shekel_params import rand_holes, rand_weights, sample_holes, sample_weights
 from utils.langermann_params import rand_a, rand_c, sample_a, sample_c
 

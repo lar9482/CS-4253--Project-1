@@ -20,3 +20,15 @@ class genetic_algorithm:
             population[i] = initial_value
 
         return population
+
+    def run_algorithm(self, iterations = 1000):
+        weights = self.fitness_function(self.population)
+
+    def selection(self):
+        print()
+
+    def crossover(self):
+        print()
+
+    def mutate(self):
+        print()
