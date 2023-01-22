@@ -68,7 +68,7 @@ def main():
     # kMax = 50
 
     nMin = 5
-    nMax = 5
+    nMax = 6
 
     kMin = 5
     kMax = 5

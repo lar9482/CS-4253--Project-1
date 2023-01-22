@@ -246,8 +246,6 @@ to be used only internally.
 
 
 if __name__ == '__main__':
-    import matplotlib
-    print(matplotlib.__version__)
     _plot_f(sphere, *_mesh(-5, 5, -5, 5), title="The Sphere Function")
     _plot_f(griew, *_mesh(0, 200, 0, 200), title="Griewank's function")
     _plot_f(shekel, *_mesh(0, 10, 0, 10), title="Modified Shekel's Foxholes")

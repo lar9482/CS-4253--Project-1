@@ -3,6 +3,11 @@ Shuffle: True
 
 N: 5
 K: 5
-Average Training Accuracy: 0.9790625000000001
-Average Testing Accuracy: 0.96
+Average Training Accuracy: 0.97875
+Average Testing Accuracy: 0.955
+
+N: 6
+K: 5
+Average Training Accuracy: 0.9804156674660272
+Average Testing Accuracy: 0.9457831325301204
 
