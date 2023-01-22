@@ -25,6 +25,9 @@ def bitstr2float(s):
 
 
 def real_to_binary(num):
+    if (num > 2**7 or num < -(2**7)):
+        raise Exception("Incompatible Number: Inputted is out of range of the genetic algorithm")
+
     #Splitting the number into binary with its real part and fractional part separated
     realBits = ''
     fractionBits = ''
@@ -55,3 +58,19 @@ def real_to_binary(num):
         realBits = '1' + realBits
     
     return realBits + '.' + fractionBits
+
+def binary_to_real(bitstring):
+    if (len(bitstring) != 60 and bitstring.index('.') != 8):
+        raise Exception('Incompatible bitstring: Check either the length of the bitstring or its decimal point placement')
+
+    [realBits, fractionBits] = bitstring.split('.')
+
+    sign = realBits[0:1:1]
+    realNumBits = realBits[1:len(realBits):1]
+
+    if sign=='0':
+        return int(realNumBits, 2) + bitstr2float(fractionBits)
+    else:
+        return (-1) * (int(realNumBits, 2) + bitstr2float(fractionBits))
+        
+    
