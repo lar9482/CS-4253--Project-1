@@ -1,4 +1,8 @@
 import struct
+from binary_fractions import Binary
+
+realBitLength = 7
+fractionBitLength = 51
 
 def bitstr2float(s):
     """Transforms a bit representation of a number between 0 and 1 to a
@@ -18,3 +22,24 @@ def bitstr2float(s):
     # https://stackoverflow.com/a/8751666
     b = '0b001111111111{}'.format(s)
     return struct.unpack('d', struct.pack('Q', int(b, 0)))[0] - 1
+
+
+def real_to_binary(num):
+    #Splitting the number into binary with its real part and fractional part separated
+    [realBits, fractionBits] = Binary(num).string.split('.')
+
+    #Removing the negative sign, if it exists
+    realBits = realBits.replace('-', '')
+    
+    while (len(realBits) < realBitLength):
+        realBits = '0' + realBits
+    
+    while (len(fractionBits) < fractionBitLength):
+        fractionBits = fractionBits + '0'
+
+    if (num > 0):
+        realBits = '0' + realBits
+    else:
+        realBits = '1' + realBits
+    
+    return realBits + '.' + fractionBits
