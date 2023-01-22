@@ -6,10 +6,14 @@ def main():
     one = -100.9535434465465455
     two = 5.0
     three = 100.555
+    four = -100
+    five = 0
 
     test1 = real_to_binary(one)
     test2 = real_to_binary(two)
     test3 = real_to_binary(three)
+    test4 = real_to_binary(four)
+    test5 = real_to_binary(five)
     
     # #float to binary
     # two = Binary(one)
@@ -21,10 +25,14 @@ def main():
     print(test1)
     print(test2)
     print(test3)
+    print(test4)
+    print(test5)
 
     print(binary_to_real(test1))
     print(binary_to_real(test2))
     print(binary_to_real(test3))
+    print(binary_to_real(test4))
+    print(binary_to_real(test5))
 
 
 if __name__ == "__main__":

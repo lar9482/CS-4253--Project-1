@@ -2,7 +2,7 @@ import struct
 from binary_fractions import Binary
 
 realBitLength = 7
-fractionBitLength = 51
+fractionBitLength = 52
 
 def bitstr2float(s):
     """Transforms a bit representation of a number between 0 and 1 to a
@@ -50,8 +50,8 @@ def real_to_binary(num):
     while (len(fractionBits) < fractionBitLength):
         fractionBits = fractionBits + '0'
 
-    #If num is posistive, add a zero in front to indicate the string as a positive number
-    if (num > 0):
+    #If num is positive or zero, add a zero in front to indicate the string as a positive number
+    if (num >= 0):
         realBits = '0' + realBits
     #Else, add a one in front to indicate the string as a negative number
     else:
