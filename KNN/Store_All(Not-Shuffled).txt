@@ -1,0 +1,243 @@
+Store_All: True
+Shuffle: False
+
+N: 5
+K: 27
+Average Training Accuracy: 0.9421875
+Average Testing Accuracy: 0.6637500000000001
+
+N: 5
+K: 9
+Average Training Accuracy: 0.9665625
+Average Testing Accuracy: 0.7212500000000001
+
+N: 5
+K: 7
+Average Training Accuracy: 0.973125
+Average Testing Accuracy: 0.7175
+
+N: 5
+K: 13
+Average Training Accuracy: 0.9621875
+Average Testing Accuracy: 0.70375
+
+N: 5
+K: 35
+Average Training Accuracy: 0.9321875000000001
+Average Testing Accuracy: 0.64125
+
+N: 5
+K: 63
+Average Training Accuracy: 0.85875
+Average Testing Accuracy: 0.6375
+
+N: 5
+K: 17
+Average Training Accuracy: 0.9540625
+Average Testing Accuracy: 0.6825
+
+N: 5
+K: 19
+Average Training Accuracy: 0.9503125
+Average Testing Accuracy: 0.6825
+
+N: 5
+K: 11
+Average Training Accuracy: 0.9640625
+Average Testing Accuracy: 0.7124999999999999
+
+N: 5
+K: 37
+Average Training Accuracy: 0.930625
+Average Testing Accuracy: 0.635
+
+N: 5
+K: 25
+Average Training Accuracy: 0.9456249999999999
+Average Testing Accuracy: 0.6737500000000001
+
+N: 5
+K: 5
+Average Training Accuracy: 0.9840625000000001
+Average Testing Accuracy: 0.73875
+
+N: 5
+K: 39
+Average Training Accuracy: 0.9293750000000001
+Average Testing Accuracy: 0.62875
+
+N: 5
+K: 33
+Average Training Accuracy: 0.934375
+Average Testing Accuracy: 0.645
+
+N: 5
+K: 31
+Average Training Accuracy: 0.93625
+Average Testing Accuracy: 0.66125
+
+N: 5
+K: 57
+Average Training Accuracy: 0.8678125
+Average Testing Accuracy: 0.64375
+
+N: 5
+K: 49
+Average Training Accuracy: 0.8865625
+Average Testing Accuracy: 0.6399999999999999
+
+N: 5
+K: 59
+Average Training Accuracy: 0.8653125
+Average Testing Accuracy: 0.63625
+
+N: 5
+K: 23
+Average Training Accuracy: 0.945625
+Average Testing Accuracy: 0.68125
+
+N: 5
+K: 95
+Average Training Accuracy: 0.7890625
+Average Testing Accuracy: 0.63625
+
+N: 5
+K: 71
+Average Training Accuracy: 0.83625
+Average Testing Accuracy: 0.64125
+
+N: 5
+K: 79
+Average Training Accuracy: 0.8206249999999999
+Average Testing Accuracy: 0.64625
+
+N: 5
+K: 51
+Average Training Accuracy: 0.879375
+Average Testing Accuracy: 0.64
+
+N: 5
+K: 61
+Average Training Accuracy: 0.86125
+Average Testing Accuracy: 0.6375
+
+N: 5
+K: 69
+Average Training Accuracy: 0.8412499999999999
+Average Testing Accuracy: 0.6325
+
+N: 5
+K: 91
+Average Training Accuracy: 0.7903125
+Average Testing Accuracy: 0.635
+
+N: 5
+K: 81
+Average Training Accuracy: 0.814375
+Average Testing Accuracy: 0.64625
+
+N: 5
+K: 77
+Average Training Accuracy: 0.823125
+Average Testing Accuracy: 0.65
+
+N: 5
+K: 29
+Average Training Accuracy: 0.9375
+Average Testing Accuracy: 0.66625
+
+N: 5
+K: 73
+Average Training Accuracy: 0.8331249999999999
+Average Testing Accuracy: 0.64
+
+N: 5
+K: 21
+Average Training Accuracy: 0.9512499999999999
+Average Testing Accuracy: 0.68375
+
+N: 5
+K: 97
+Average Training Accuracy: 0.7884375
+Average Testing Accuracy: 0.6325
+
+N: 5
+K: 53
+Average Training Accuracy: 0.8778125000000001
+Average Testing Accuracy: 0.64125
+
+N: 5
+K: 87
+Average Training Accuracy: 0.7971875
+Average Testing Accuracy: 0.6325
+
+N: 5
+K: 15
+Average Training Accuracy: 0.958125
+Average Testing Accuracy: 0.68375
+
+N: 5
+K: 85
+Average Training Accuracy: 0.8015625
+Average Testing Accuracy: 0.6412500000000001
+
+N: 5
+K: 75
+Average Training Accuracy: 0.8250000000000001
+Average Testing Accuracy: 0.6425000000000001
+
+N: 5
+K: 67
+Average Training Accuracy: 0.8471875
+Average Testing Accuracy: 0.6312500000000001
+
+N: 5
+K: 45
+Average Training Accuracy: 0.895
+Average Testing Accuracy: 0.6425
+
+N: 5
+K: 93
+Average Training Accuracy: 0.7903125000000001
+Average Testing Accuracy: 0.6375
+
+N: 5
+K: 43
+Average Training Accuracy: 0.9109375
+Average Testing Accuracy: 0.63375
+
+N: 5
+K: 55
+Average Training Accuracy: 0.8721875
+Average Testing Accuracy: 0.6387499999999999
+
+N: 5
+K: 89
+Average Training Accuracy: 0.7934375
+Average Testing Accuracy: 0.635
+
+N: 5
+K: 83
+Average Training Accuracy: 0.8053125
+Average Testing Accuracy: 0.645
+
+N: 5
+K: 41
+Average Training Accuracy: 0.9178124999999999
+Average Testing Accuracy: 0.6275000000000001
+
+N: 5
+K: 99
+Average Training Accuracy: 0.783125
+Average Testing Accuracy: 0.62875
+
+N: 5
+K: 47
+Average Training Accuracy: 0.8921874999999999
+Average Testing Accuracy: 0.64625
+
+N: 5
+K: 65
+Average Training Accuracy: 0.8540625
+Average Testing Accuracy: 0.63375
+

@@ -61,22 +61,18 @@ def concurrent_run_labeled_examples(nMin, nMax, kMin, kMax, store_all = True, sh
     
 
 def main():
-    # nMin = 5
-    # nMax = 10
-
-    # kMin = 5
-    # kMax = 50
-
     nMin = 5
-    nMax = 6
+    nMax = 5
 
     kMin = 5
-    kMax = 5
+    kMax = 100
 
-    store_all = True
-    shuffle = True
-
-    concurrent_run_labeled_examples(nMin, nMax, kMin, kMax, store_all, shuffle, "labeled-accuracies.txt")
+    # concurrent_run_labeled_examples(nMin, nMax, kMin, kMax, store_all, shuffle, "labeled-accuracies.txt")
+    concurrent_run_labeled_examples(nMin, nMax, kMin, kMax, True, True, "Store_All(Shuffled).txt")
+    concurrent_run_labeled_examples(nMin, nMax, kMin, kMax, True, False, "Store_All(Not-Shuffled).txt")
+    concurrent_run_labeled_examples(nMin, nMax, kMin, kMax, False, True, "Store_Errors(Shuffled).txt")
+    concurrent_run_labeled_examples(nMin, nMax, kMin, kMax, False, False, "Store_Errors(Not-Shuffled).txt")
+    
 
 if __name__ == "__main__":
     main()
