@@ -1,0 +1,7 @@
+{
+    "python.testing.pytestArgs": [
+        "Local_Search"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true
+}

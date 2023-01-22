@@ -1,9 +1,10 @@
 from utils.ga_util import bitstr2float
 from binary_fractions import Binary
 from utils.ga_util import real_to_binary, binary_to_real
+import random
 
 def main():
-    one = -100.9535434465465455
+    one = -99.9535434465465455
     two = 5.0
     three = 100.555
     four = -100
@@ -33,6 +34,13 @@ def main():
     print(binary_to_real(test3))
     print(binary_to_real(test4))
     print(binary_to_real(test5))
+
+
+    six = random.uniform(-100, 100)
+    print(six)
+    test6 = real_to_binary(six)
+    print(test6)
+    print(binary_to_real(test6))
 
 
 if __name__ == "__main__":
