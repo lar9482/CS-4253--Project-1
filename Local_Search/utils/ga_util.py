@@ -26,19 +26,31 @@ def bitstr2float(s):
 
 def real_to_binary(num):
     #Splitting the number into binary with its real part and fractional part separated
-    [realBits, fractionBits] = Binary(num).string.split('.')
+    realBits = ''
+    fractionBits = ''
+
+    # If the inputted num is an integer, all of the bits are allocated to 'realBits'
+    if (Binary(num).string.find('.') == -1):
+        realBits = Binary(num).string
+    #Else, the bits are allocated to 'realBits' and 'fractionBits' by spliited the string at the decimal point
+    else:
+        [realBits, fractionBits] = Binary(num).string.split('.')
 
     #Removing the negative sign, if it exists
     realBits = realBits.replace('-', '')
     
+    #Adding placeholder zeros to the 7th place of 'realBits', if possible
     while (len(realBits) < realBitLength):
         realBits = '0' + realBits
     
+    #Adding placeholder zeros to the 51th place of 'fractionBits', if possible
     while (len(fractionBits) < fractionBitLength):
         fractionBits = fractionBits + '0'
 
+    #If num is posistive, add a zero in front to indicate the string as a positive number
     if (num > 0):
         realBits = '0' + realBits
+    #Else, add a one in front to indicate the string as a negative number
     else:
         realBits = '1' + realBits
     

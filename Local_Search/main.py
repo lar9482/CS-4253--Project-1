@@ -4,7 +4,7 @@ from utils.ga_util import real_to_binary
 
 def main():
     one = -100.9535434465465455
-    two = 5.01
+    two = 5.0
     three = 100.555
 
     test1 = real_to_binary(one)
