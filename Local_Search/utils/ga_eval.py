@@ -34,8 +34,8 @@ will be necessary.
 
 import numpy as np
 import itertools
-import shekel_params as shekel_params
-import langermann_params as langermann_params
+from utils.shekel_params import rand_holes, rand_weights, sample_holes, sample_weights
+from utils.langermann_params import rand_a, rand_c, sample_a, sample_c
 
 _norm = lambda x: np.linalg.norm(x, 1)**2
 _inf_norm = lambda x: np.max(x**2)
@@ -79,7 +79,7 @@ def griew_c(x):
 
 ################################################################
 
-def shekel(x, holes=shekel_params.sample_holes, weights=shekel_params.sample_weights):
+def shekel(x, holes=sample_holes, weights=sample_weights):
     """
     Modified Shekel's Foxholes. The function is mostly uniform, except
     for points very close to each "foxhole," in which the function
@@ -134,7 +134,7 @@ def micha_c(x):
 
 ################################################################
 
-def langermann(x, a=langermann_params.sample_a, c=langermann_params.sample_c):
+def langermann(x, a=sample_a, c=sample_c):
     """Langermann's function. Another noisy function, although local maxima/minima are located near points given in the a matrix.
 
     Range: x_i in [0, 10]
