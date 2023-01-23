@@ -22,13 +22,21 @@ class genetic_algorithm:
         return population
 
     def run_algorithm(self, iterations = 1000):
-        weights = self.fitness_function(self.population)
+        current_iteration = 0
+        while current_iteration < iterations:
+            weights = self.fitness_function(self.population)
+            new_population = np.empty(self.population.size)
 
-    def selection(self):
+
+
+            current_iteration += 1
+        
+
+    def selection(self, weights):
         print()
 
-    def crossover(self):
+    def crossover(self, parent1, parent2):
         print()
 
-    def mutate(self):
+    def mutate(self, chromosome):
         print()
