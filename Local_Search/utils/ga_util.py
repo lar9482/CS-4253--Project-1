@@ -24,7 +24,9 @@ def bitstr2float(s):
     return struct.unpack('d', struct.pack('Q', int(b, 0)))[0] - 1
 
 
-def real_to_binary(num):
+def real_to_binary(num, min_value, max_value):
+
+    normal_num = (num - min_value) / (max_value - min_value)
     if (num > 2**7 or num < -(2**7)):
         raise Exception("Incompatible Number: Inputted is out of range of the genetic algorithm")
 
@@ -33,11 +35,11 @@ def real_to_binary(num):
     fractionBits = ''
 
     # If the inputted num is an integer, all of the bits are allocated to 'realBits'
-    if (Binary(num).string.find('.') == -1):
+    if (Binary(normal_num).string.find('.') == -1):
         realBits = Binary(num).string
     #Else, the bits are allocated to 'realBits' and 'fractionBits' by spliited the string at the decimal point
     else:
-        [realBits, fractionBits] = Binary(num).string.split('.')
+        [realBits, fractionBits] = Binary(normal_num).string.split('.')
 
     #Removing the negative sign, if it exists
     realBits = realBits.replace('-', '')
@@ -50,6 +52,11 @@ def real_to_binary(num):
     while (len(fractionBits) < fractionBitLength):
         fractionBits = fractionBits + '0'
 
+
+    #In cases where the fractional bits is greater than 52 bits
+    if (len(fractionBits) > fractionBitLength):
+        fractionBits = fractionBits[0:fractionBitLength:1]
+
     #If num is positive or zero, add a zero in front to indicate the string as a positive number
     if (num >= 0):
         realBits = '0' + realBits
@@ -57,20 +64,12 @@ def real_to_binary(num):
     else:
         realBits = '1' + realBits
     
-    return realBits + '.' + fractionBits
+    return fractionBits
 
-def binary_to_real(bitstring):
-    if (len(bitstring) != 60 and bitstring.index('.') != 8):
-        raise Exception('Incompatible bitstring: Check either the length of the bitstring or its decimal point placement')
+def binary_to_real(bitstring, min_value, max_value):
+    normal_num = bitstr2float(bitstring)
 
-    [realBits, fractionBits] = bitstring.split('.')
-
-    sign = realBits[0:1:1]
-    realNumBits = realBits[1:len(realBits):1]
-
-    if sign=='0':
-        return int(realNumBits, 2) + bitstr2float(fractionBits)
-    else:
-        return (-1) * (int(realNumBits, 2) + bitstr2float(fractionBits))
+    num = (normal_num*(max_value - min_value)) + min_value
+    return num
         
     
