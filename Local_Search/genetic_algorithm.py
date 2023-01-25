@@ -78,8 +78,10 @@ class genetic_algorithm:
                 choosen_weight = weight[0]
                 break
         
+        choosen_index = np.argwhere(weights==choosen_weight)[0][0]
+
+        return (population[choosen_index, :])
         
-        print()
 
     def crossover(self, parent1, parent2):
         print()
