@@ -61,7 +61,7 @@ class genetic_algorithm:
         current_generation = 0
         while current_generation < generations:
             weights = self.__calculate_adjusted_fitness(self.population, self.fitness_function, self.maxProblem)
-            new_population = np.empty(self.population.size)
+            new_population = np.empty((self.population_size, self.individual_size))
 
             for i in range(0, int(self.population_size/2)):
                 #Performing the selection operation
@@ -81,6 +81,8 @@ class genetic_algorithm:
                 #Performing the mutation crossover
                 if (random.uniform(0, 1) < self.mutation_rate):
                     child1 = self.__mutate(child1)
+                
+                if (random.uniform(0, 1) < self.mutation_rate):
                     child2 = self.__mutate(child2)
                 
             current_generation += 1
@@ -91,27 +93,39 @@ class genetic_algorithm:
 
         #Sorting all of the weights from least to greatest
         sorted_weights = weights[np.argsort(weights[:, 0])]
+
+        #Get the 1st weight that's greater than the random_num.
+        #This emulates a roulette with probability that's proportional to the weights
         for weight in sorted_weights:
             if (random_num < weight[0]):
                 choosen_weight = weight[0]
                 break
         
+        #Get the row index that corresponds to the choosen weight
         choosen_index = np.argwhere(weights==choosen_weight)[0][0]
 
         return (population[choosen_index, :])
         
 
     def __crossover(self, parent1, parent2):
-        c = int(random.uniform(0, self.individual_size))
 
-        child1_parent1 = parent1[0:c:1]
-        child1_parent2 = parent2[c:self.individual_size:1]
+        #Generate a random integer between 0 and the individual size
+        split_point = int(random.uniform(0, self.individual_size))
 
-        child2_parent1 = parent1[c:self.individual_size:1]
-        child2_parent2 = parent2[0:c:1]
+        #For the 1st child, piece together the subsection of parent1 before the split_point
+        # and the subsection of parent2 after the split_point
+        child1_parent1 = parent1[0:split_point:1]
+        child1_parent2 = parent2[split_point:self.individual_size:1]
 
+        #For the 2nd child, piece together the subsection of parent1 after the split_point
+        # and the subsection of parent2 before the split_point
+        child2_parent1 = parent1[split_point:self.individual_size:1]
+        child2_parent2 = parent2[0:split_point:1]
+
+        #Join the subsections together to form the 1st and 2nd child
         child1 = np.concatenate((child1_parent1, child1_parent2), axis=0)
         child2 = np.concatenate((child2_parent1, child2_parent2), axis=0)
+
         return (child1, child2)
 
     def __mutate(self, individual):

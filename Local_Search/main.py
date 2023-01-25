@@ -9,8 +9,8 @@ def main():
     individual_size = 10
     crossover_rate = 1
     mutation_rate = 1
-    min_value = 0
-    max_value = 100
+    min_value = -5
+    max_value = 5
     maxProblem = False
 
     algo = genetic_algorithm(fitness_function, population_size, individual_size, crossover_rate, mutation_rate, min_value, max_value, maxProblem)
