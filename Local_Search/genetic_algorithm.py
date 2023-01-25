@@ -39,6 +39,7 @@ class genetic_algorithm:
         #Get the total sum all fitnesses
         total_fitness = np.sum(weights)
 
+        #Adjust the weights based on minimization or maximization
         for weight_index in range(0, self.population_size):
             #Maximazation Problem
             if (maxProblem):
@@ -46,6 +47,13 @@ class genetic_algorithm:
             #Minimazation
             else:
                 weights[weight_index, 0] = (total_fitness)/ (weights[weight_index, 0])
+
+        #Normalize the weights
+        min_weight = np.min(weights)
+        max_weight = np.max(weights)
+
+        for weight_index in range(0, self.population_size):
+            weights[weight_index, 0] = (weights[weight_index, 0] - min_weight) / (max_weight - min_weight)
     
         return weights
 
