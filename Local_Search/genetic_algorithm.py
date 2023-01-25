@@ -64,16 +64,22 @@ class genetic_algorithm:
             new_population = np.empty(self.population.size)
 
             for i in range(0, int(self.population_size/2)):
+                #Performing the selection operation
                 parent1 = self.__selection(self.population, weights)
                 parent2 = self.__selection(self.population, weights)
 
                 child1 = np.empty((self.population_size))
                 child2 = np.empty((self.population_size))
 
+                #Performing the crossover operation
                 if (random.uniform(0, 1) < self.crossover_rate):
                     child1 = self.__crossover(parent1, parent2)
                     child2 = self.__crossover(parent1, parent2)
+                else:
+                    child1 = parent1
+                    child2 = parent2
 
+                #Performing the mutation crossover
                 if (random.uniform(0, 1) < self.mutation_rate):
                     child1 = self.__mutate(child1)
                     child2 = self.__mutate(child2)
