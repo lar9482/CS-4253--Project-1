@@ -36,7 +36,7 @@ def real_to_binary(num, min_value, max_value):
     while (len(fractionBits) < fractionBitLength):
         fractionBits = fractionBits + '0'
 
-    #In cases where the fractional bits is greater than 52 bits
+    #In cases where the fractional bits are greater than 52 bits
     if (len(fractionBits) > fractionBitLength):
         fractionBits = fractionBits[0:fractionBitLength:1]
 
@@ -50,7 +50,7 @@ def binary_to_real(bitstring, min_value, max_value):
 
     #Transforming normal_num back into a scaled number
     num = (normal_num*(max_value - min_value)) + min_value
-    
+
     return num
         
     
