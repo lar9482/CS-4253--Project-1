@@ -63,11 +63,22 @@ class genetic_algorithm:
             weights = self.calculate_adjusted_fitness(self.population, self.fitness_function, self.maxProblem)
             new_population = np.empty(self.population.size)
 
+            for i in range(0, int(self.population_size/2)):
+                self.selection(self.population, weights)
 
             current_iteration += 1
-        
 
-    def selection(self, weights):
+    def selection(self, population, weights):
+        random_num = random.uniform(0, 1)
+        choosen_weight = -1
+
+        sorted_weights = weights[np.argsort(weights[:, 0])]
+        for weight in sorted_weights:
+            if (random_num < weight[0]):
+                choosen_weight = weight[0]
+                break
+        
+        
         print()
 
     def crossover(self, parent1, parent2):
