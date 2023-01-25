@@ -29,10 +29,30 @@ class genetic_algorithm:
 
         return population
 
+    def calculate_adjusted_fitness(self, population, fitness_function, maxProblem):
+        weights = np.empty((self.population_size, 1))
+
+        #For every individual, calculate the raw fitness
+        for weight_index in range(0, self.population_size):
+            weights[weight_index, 0] = fitness_function(population[weight_index, :])
+
+        #Get the total sum all fitnesses
+        total_fitness = np.sum(weights)
+
+        for weight_index in range(0, self.population_size):
+            #Maximazation Problem
+            if (maxProblem):
+                weights[weight_index, 0] = (weights[weight_index, 0]) / (total_fitness)
+            #Minimazation
+            else:
+                weights[weight_index, 0] = (total_fitness)/ (weights[weight_index, 0])
+    
+        return weights
+
     def run_algorithm(self, iterations = 1000):
         current_iteration = 0
         while current_iteration < iterations:
-            weights = self.fitness_function(self.population)
+            weights = self.calculate_adjusted_fitness(self.population, self.fitness_function, self.maxProblem)
             new_population = np.empty(self.population.size)
 
 
