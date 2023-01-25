@@ -7,7 +7,7 @@ def main():
     fitness_function = sphere
     population_size = 100
     individual_size = 10
-    crossover_rate = 0.05
+    crossover_rate = 1
     mutation_rate = 0.05
     min_value = 0
     max_value = 100

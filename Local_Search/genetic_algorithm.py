@@ -57,21 +57,28 @@ class genetic_algorithm:
     
         return weights
 
-    def run_algorithm(self, iterations = 1000):
-        current_iteration = 0
-        while current_iteration < iterations:
+    def run_algorithm(self, generations = 1000):
+        current_generation = 0
+        while current_generation < generations:
             weights = self.calculate_adjusted_fitness(self.population, self.fitness_function, self.maxProblem)
             new_population = np.empty(self.population.size)
 
-            for i in range(0, int(self.population_size/2)):
-                self.selection(self.population, weights)
+            for i in range(0, self.population_size):
+                parent1 = self.selection(self.population, weights)
+                parent2 = self.selection(self.population, weights)
+                child = np.empty((self.population_size))
 
-            current_iteration += 1
+                if (random.uniform(0, 1) < self.crossover_rate):
+                    child = self.crossover(parent1, parent2)
+
+                print()
+            current_generation += 1
 
     def selection(self, population, weights):
         random_num = random.uniform(0, 1)
         choosen_weight = -1
 
+        #Sorting all of the weights from least to greatest
         sorted_weights = weights[np.argsort(weights[:, 0])]
         for weight in sorted_weights:
             if (random_num < weight[0]):
@@ -84,7 +91,12 @@ class genetic_algorithm:
         
 
     def crossover(self, parent1, parent2):
-        print()
+        c = int(random.uniform(0, self.individual_size))
+
+        subParent1 = parent1[0:c:1]
+        subParent2 = parent2[c:self.individual_size:1]
+        
+        return np.concatenate((subParent1, subParent2), axis=0)
 
     def mutate(self, chromosome):
         print()
