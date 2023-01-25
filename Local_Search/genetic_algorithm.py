@@ -73,8 +73,7 @@ class genetic_algorithm:
 
                 #Performing the crossover operation
                 if (random.uniform(0, 1) < self.crossover_rate):
-                    child1 = self.__crossover(parent1, parent2)
-                    child2 = self.__crossover(parent1, parent2)
+                    (child1, child2) = self.__crossover(parent1, parent2)
                 else:
                     child1 = parent1
                     child2 = parent2
@@ -105,10 +104,15 @@ class genetic_algorithm:
     def __crossover(self, parent1, parent2):
         c = int(random.uniform(0, self.individual_size))
 
-        subParent1 = parent1[0:c:1]
-        subParent2 = parent2[c:self.individual_size:1]
-        
-        return np.concatenate((subParent1, subParent2), axis=0)
+        child1_parent1 = parent1[0:c:1]
+        child1_parent2 = parent2[c:self.individual_size:1]
+
+        child2_parent1 = parent1[c:self.individual_size:1]
+        child2_parent2 = parent2[0:c:1]
+
+        child1 = np.concatenate((child1_parent1, child1_parent2), axis=0)
+        child2 = np.concatenate((child2_parent1, child2_parent2), axis=0)
+        return (child1, child2)
 
     def __mutate(self, individual):
         individual_index = int(random.uniform(0, self.individual_size))
