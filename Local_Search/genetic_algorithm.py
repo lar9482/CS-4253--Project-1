@@ -63,15 +63,21 @@ class genetic_algorithm:
             weights = self.calculate_adjusted_fitness(self.population, self.fitness_function, self.maxProblem)
             new_population = np.empty(self.population.size)
 
-            for i in range(0, self.population_size):
+            for i in range(0, int(self.population_size/2)):
                 parent1 = self.selection(self.population, weights)
                 parent2 = self.selection(self.population, weights)
-                child = np.empty((self.population_size))
+
+                child1 = np.empty((self.population_size))
+                child2 = np.empty((self.population_size))
 
                 if (random.uniform(0, 1) < self.crossover_rate):
-                    child = self.crossover(parent1, parent2)
+                    child1 = self.crossover(parent1, parent2)
+                    child2 = self.crossover(parent1, parent2)
 
-                print()
+                if (random.uniform(0, 1) < self.mutation_rate):
+                    child1 = self.mutate(child1)
+                    child2 = self.mutate(child2)
+                
             current_generation += 1
 
     def selection(self, population, weights):
@@ -98,5 +104,19 @@ class genetic_algorithm:
         
         return np.concatenate((subParent1, subParent2), axis=0)
 
-    def mutate(self, chromosome):
-        print()
+    def mutate(self, individual):
+        individual_index = int(random.uniform(0, self.individual_size))
+
+        gene = individual[individual_index]
+        gene_bitstring = real_to_binary(gene, self.min_value, self.max_value)
+
+        bit_index = int(random.uniform(0, 52))
+        if (gene_bitstring[bit_index] == '0'):
+            gene_bitstring = gene_bitstring[:bit_index] + '1' + gene_bitstring[bit_index+1:]
+        else:
+            gene_bitstring = gene_bitstring[:bit_index] + '0' + gene_bitstring[bit_index+1:]
+        
+        new_gene = binary_to_real(gene_bitstring, self.min_value, self.max_value)
+        individual[individual_index] = new_gene
+        
+        return individual
