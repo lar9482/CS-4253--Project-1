@@ -19,9 +19,9 @@ class genetic_algorithm:
 
         self.maxProblem = maxProblem
 
-        self.population = self.initialize_population(population_size, individual_size, min_value, max_value)
+        self.population = self.__initialize_population(population_size, individual_size, min_value, max_value)
         
-    def initialize_population(self, population_size, individual_size, min_value, max_value):
+    def __initialize_population(self, population_size, individual_size, min_value, max_value):
         population = np.empty((population_size, individual_size))
         for pop in range(0, population_size):
             for element in range(0, individual_size):
@@ -29,7 +29,7 @@ class genetic_algorithm:
 
         return population
 
-    def calculate_adjusted_fitness(self, population, fitness_function, maxProblem):
+    def __calculate_adjusted_fitness(self, population, fitness_function, maxProblem):
         weights = np.empty((self.population_size, 1))
 
         #For every individual, calculate the raw fitness
@@ -60,27 +60,27 @@ class genetic_algorithm:
     def run_algorithm(self, generations = 1000):
         current_generation = 0
         while current_generation < generations:
-            weights = self.calculate_adjusted_fitness(self.population, self.fitness_function, self.maxProblem)
+            weights = self.__calculate_adjusted_fitness(self.population, self.fitness_function, self.maxProblem)
             new_population = np.empty(self.population.size)
 
             for i in range(0, int(self.population_size/2)):
-                parent1 = self.selection(self.population, weights)
-                parent2 = self.selection(self.population, weights)
+                parent1 = self.__selection(self.population, weights)
+                parent2 = self.__selection(self.population, weights)
 
                 child1 = np.empty((self.population_size))
                 child2 = np.empty((self.population_size))
 
                 if (random.uniform(0, 1) < self.crossover_rate):
-                    child1 = self.crossover(parent1, parent2)
-                    child2 = self.crossover(parent1, parent2)
+                    child1 = self.__crossover(parent1, parent2)
+                    child2 = self.__crossover(parent1, parent2)
 
                 if (random.uniform(0, 1) < self.mutation_rate):
-                    child1 = self.mutate(child1)
-                    child2 = self.mutate(child2)
+                    child1 = self.__mutate(child1)
+                    child2 = self.__mutate(child2)
                 
             current_generation += 1
 
-    def selection(self, population, weights):
+    def __selection(self, population, weights):
         random_num = random.uniform(0, 1)
         choosen_weight = -1
 
@@ -96,7 +96,7 @@ class genetic_algorithm:
         return (population[choosen_index, :])
         
 
-    def crossover(self, parent1, parent2):
+    def __crossover(self, parent1, parent2):
         c = int(random.uniform(0, self.individual_size))
 
         subParent1 = parent1[0:c:1]
@@ -104,7 +104,7 @@ class genetic_algorithm:
         
         return np.concatenate((subParent1, subParent2), axis=0)
 
-    def mutate(self, individual):
+    def __mutate(self, individual):
         individual_index = int(random.uniform(0, self.individual_size))
 
         gene = individual[individual_index]
