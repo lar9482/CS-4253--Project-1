@@ -78,13 +78,19 @@ class genetic_algorithm:
                     child1 = parent1
                     child2 = parent2
 
-                #Performing the mutation crossover
+                #Performing the mutation operation
                 if (random.uniform(0, 1) < self.mutation_rate):
                     child1 = self.__mutate(child1)
                 
                 if (random.uniform(0, 1) < self.mutation_rate):
                     child2 = self.__mutate(child2)
                 
+                #Appending the children to the new population
+                new_population[i] = child1
+                new_population[i + int(self.population_size/2)] = child2
+            
+            #Finishing the current generation.
+            self.population = new_population
             current_generation += 1
 
     def __selection(self, population, weights):
