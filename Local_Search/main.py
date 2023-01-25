@@ -8,11 +8,11 @@ def main():
     # algo.run_algorithm(1)
 
 
-    min_value = 0
-    max_value = 100
+    min_value = -50
+    max_value = 50
 
-    test1 = 0
-    test2 = 99
+    test1 = -10
+    test2 = 10
     # test3 = 50
     # test4 = 67.52354432145
 
