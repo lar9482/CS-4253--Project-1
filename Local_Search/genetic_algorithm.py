@@ -6,21 +6,26 @@ import numpy as np
 
 class genetic_algorithm:
     def __init__(self, fitness_function, population_size = 100, individual_size = 10, crossover_rate = 0.05, mutation_rate = 0.05,
-                       min_value = 0, max_value = 10):
+                       min_value = 0, max_value = 10, maxProblem = True):
 
         self.fitness_function = fitness_function
         self.crossover_rate = crossover_rate
         self.mutation_rate = mutation_rate
-        self.population = self.initialize_population(population_size, min_value, max_value)
-
+        
         self.population_size = population_size
         self.individual_size = individual_size
+        self.min_value = min_value
+        self.max_value = max_value
+
+        self.maxProblem = maxProblem
+
+        self.population = self.initialize_population(population_size, individual_size, min_value, max_value)
         
-    def initialize_population(self, population_size, min_value, max_value):
-        population = np.empty((population_size, 1))
-        for i in range(0, population_size):
-            initial_value = random.uniform(min_value, max_value)
-            population[i, 0] = initial_values
+    def initialize_population(self, population_size, individual_size, min_value, max_value):
+        population = np.empty((population_size, individual_size))
+        for pop in range(0, population_size):
+            for element in range(0, individual_size):
+                population[pop, element] = random.uniform(min_value, max_value)
 
         return population
 
