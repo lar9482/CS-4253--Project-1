@@ -1,4 +1,3 @@
-from chromosome import chromosome
 from utils.ga_util import real_to_binary, binary_to_real
 
 import random
