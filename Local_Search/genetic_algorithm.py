@@ -92,6 +92,8 @@ class genetic_algorithm:
             self.population = new_population
             current_generation += 1
             print("Generation: %s " % (current_generation))
+            if (current_generation % 50 == 0):
+                self.__report_progress(self.population)
 
     def __selection(self, population, weights):
         random_num = random.uniform(0, 1)
@@ -138,22 +140,31 @@ class genetic_algorithm:
         return (child1, child2)
 
     def __mutate(self, individual):
-        individual_index = int(random.uniform(0, self.individual_size))
+        new_individual = np.empty((self.individual_size))
+        for individual_index in range(0, self.individual_size):
+            gene = individual[individual_index]
+            gene_bitstring = real_to_binary(gene, self.min_value, self.max_value)
 
-        gene = individual[individual_index]
-        gene_bitstring = real_to_binary(gene, self.min_value, self.max_value)
-
-        bit_index = int(random.uniform(0, 52))
-        if (gene_bitstring[bit_index] == '0'):
-            gene_bitstring = gene_bitstring[:bit_index] + '1' + gene_bitstring[bit_index+1:]
-        else:
-            gene_bitstring = gene_bitstring[:bit_index] + '0' + gene_bitstring[bit_index+1:]
+            bit_index = int(random.uniform(0, 52))
+            if (gene_bitstring[bit_index] == '0'):
+                gene_bitstring = gene_bitstring[:bit_index] + '1' + gene_bitstring[bit_index+1:]
+            else:
+                gene_bitstring = gene_bitstring[:bit_index] + '0' + gene_bitstring[bit_index+1:]
         
-        new_gene = binary_to_real(gene_bitstring, self.min_value, self.max_value)
-        individual[individual_index] = new_gene
+            new_gene = binary_to_real(gene_bitstring, self.min_value, self.max_value)
+            new_individual[individual_index] = new_gene
         
-        return individual
+        return new_individual
 
     def __report_progress(self, population):
+        raw_fitness = np.empty((self.population_size, 1))
+
+        #For every individual, calculate the raw fitness
+        for weight_index in range(0, self.population_size):
+            raw_fitness[weight_index, 0] = self.fitness_function(population[weight_index, :])
         
+        min_fitness = np.min(raw_fitness)
+        max_fitness = np.max(raw_fitness)
+        print("Max fitness: %s" % (max_fitness))
+        print("Min fitness: %s" % (min_fitness))
         print()

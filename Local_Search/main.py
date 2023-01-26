@@ -14,25 +14,24 @@ def run_general_tests():
     _plot_f(bump, *_mesh(0.1, 5, 0.1, 5), title="The Bump Function")
 
 def main():
-    # run_general_tests()
+    #run_general_tests()
 
-    fitness_function = sphere
+    fitness_function = shekel
     population_size = 100
     individual_size = 2
     crossover_rate = 1
-    mutation_rate = 0.05
-    min_value = -5
-    max_value = 5
+    mutation_rate = 0.1
+    min_value = 0
+    max_value = 10
     maxProblem = False
 
     algo = genetic_algorithm(fitness_function, population_size, individual_size, crossover_rate, mutation_rate, min_value, max_value, maxProblem)
-    algo.run_algorithm(50)
+    algo.run_algorithm(1000)
     print()
-    # test1 = np.array([1, 5])
-    # test2 = np.array([5, 1])
-    # print(langermann(test1))
-    # print(langermann(test2))
 
+
+    test1 = np.array([9.5, 9.5])
+    print(shekel(test1))
 
 if __name__ == "__main__":
     main()
