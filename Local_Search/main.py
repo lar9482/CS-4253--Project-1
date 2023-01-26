@@ -20,7 +20,7 @@ def main():
     population_size = 100
     individual_size = 2
     crossover_rate = 1
-    mutation_rate = 0.1
+    mutation_rate = 0.25
     min_value = 0
     max_value = 10
     maxProblem = False

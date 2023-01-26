@@ -79,10 +79,10 @@ class genetic_algorithm:
 
                 #Performing the mutation operation
                 if (random.uniform(0, 1) < self.mutation_rate):
-                    child1 = self.__mutate(child1)
+                    child1 = self.__mutate(child1, self.mutation_rate)
                 
                 if (random.uniform(0, 1) < self.mutation_rate):
-                    child2 = self.__mutate(child2)
+                    child2 = self.__mutate(child2, self.mutation_rate)
                 
                 #Appending the children to the new population
                 new_population[i] = child1
@@ -139,17 +139,18 @@ class genetic_algorithm:
 
         return (child1, child2)
 
-    def __mutate(self, individual):
+    def __mutate(self, individual, mutation_rate):
         new_individual = np.empty((self.individual_size))
         for individual_index in range(0, self.individual_size):
             gene = individual[individual_index]
             gene_bitstring = real_to_binary(gene, self.min_value, self.max_value)
 
-            bit_index = int(random.uniform(0, 52))
-            if (gene_bitstring[bit_index] == '0'):
-                gene_bitstring = gene_bitstring[:bit_index] + '1' + gene_bitstring[bit_index+1:]
-            else:
-                gene_bitstring = gene_bitstring[:bit_index] + '0' + gene_bitstring[bit_index+1:]
+            for bit_index in range(0, len(gene_bitstring)):
+                if (random.uniform(0, 1) < mutation_rate):   
+                    if (gene_bitstring[bit_index] == '0'):
+                        gene_bitstring = gene_bitstring[:bit_index] + '1' + gene_bitstring[bit_index+1:]
+                    else:
+                        gene_bitstring = gene_bitstring[:bit_index] + '0' + gene_bitstring[bit_index+1:]
         
             new_gene = binary_to_real(gene_bitstring, self.min_value, self.max_value)
             new_individual[individual_index] = new_gene
