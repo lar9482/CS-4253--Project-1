@@ -4,7 +4,7 @@ import random
 import numpy as np
 
 class genetic_algorithm:
-    def __init__(self, fitness_function, population_size = 100, individual_size = 2, crossover_rate = 0.05, mutation_rate = 0.05,
+    def __init__(self, fitness_function, population_size = 100, individual_size = 2, crossover_rate = 0.7, mutation_rate = 0.05,
                        min_value = 0, max_value = 10, maxProblem = True):
 
         self.fitness_function = fitness_function
@@ -118,22 +118,22 @@ class genetic_algorithm:
     #not the numbers themselves 
     def __crossover(self, parent1, parent2):
 
-        #Generate a random integer between 0 and the individual size
-        split_point = int(random.uniform(0, self.individual_size))
+        child1 = np.empty(self.individual_size)
+        child2 = np.empty(self.individual_size)
 
-        #For the 1st child, piece together the subsection of parent1 before the split_point
-        # and the subsection of parent2 after the split_point
-        child1_parent1 = parent1[0:split_point:1]
-        child1_parent2 = parent2[split_point:self.individual_size:1]
+        for i in range(0, self.individual_size):
+            splitpoint = int(random.uniform(0, 52))
+            parent1_bitstring = real_to_binary(parent1[i], self.min_value, self.max_value)
+            parent2_bitstring = real_to_binary(parent2[i], self.min_value, self.max_value)
 
-        #For the 2nd child, piece together the subsection of parent1 after the split_point
-        # and the subsection of parent2 before the split_point
-        child2_parent1 = parent1[split_point:self.individual_size:1]
-        child2_parent2 = parent2[0:split_point:1]
+            child1_bitstring = parent1_bitstring[0:splitpoint:1] + parent2_bitstring[splitpoint:52:1]
+            child2_bitstring = parent2_bitstring[0:splitpoint:1] + parent1_bitstring[splitpoint:52:1]
 
-        #Join the subsections together to form the 1st and 2nd child
-        child1 = np.concatenate((child1_parent1, child1_parent2), axis=0)
-        child2 = np.concatenate((child2_parent1, child2_parent2), axis=0)
+            child1_num = binary_to_real(child1_bitstring, self.min_value, self.max_value)
+            child2_num = binary_to_real(child2_bitstring, self.min_value, self.max_value)
+
+            child1[i] = child1_num
+            child2[i] = child2_num
 
         return (child1, child2)
 
