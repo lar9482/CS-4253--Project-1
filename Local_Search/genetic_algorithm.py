@@ -5,7 +5,7 @@ import random
 import numpy as np
 
 class genetic_algorithm:
-    def __init__(self, fitness_function, population_size = 100, individual_size = 10, crossover_rate = 0.05, mutation_rate = 0.05,
+    def __init__(self, fitness_function, population_size = 100, individual_size = 2, crossover_rate = 0.05, mutation_rate = 0.05,
                        min_value = 0, max_value = 10, maxProblem = True):
 
         self.fitness_function = fitness_function
@@ -92,6 +92,7 @@ class genetic_algorithm:
             #Finishing the current generation.
             self.population = new_population
             current_generation += 1
+            print("Generation: %s " % (current_generation))
 
     def __selection(self, population, weights):
         random_num = random.uniform(0, 1)
@@ -112,7 +113,10 @@ class genetic_algorithm:
 
         return (population[choosen_index, :])
         
-
+    #Todo:
+    #Re-work implementation of crossover.
+    #I think we're intended to split the bits of each number
+    #not the numbers themselves 
     def __crossover(self, parent1, parent2):
 
         #Generate a random integer between 0 and the individual size
@@ -150,3 +154,7 @@ class genetic_algorithm:
         individual[individual_index] = new_gene
         
         return individual
+
+    def __report_progress(self, population):
+        
+        print()
