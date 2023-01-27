@@ -1,7 +1,7 @@
 from utils.ga_util import bitstr2float, real_to_binary, binary_to_real
 from utils.ga_eval import sphere, griew, shekel, micha, langermann, odd_square, bump, _plot_f, _mesh
 import random
-from genetic_algorithm import genetic_algorithm
+from GA.genetic_algorithm import genetic_algorithm
 import numpy as np
 
 def run_general_tests():

@@ -135,7 +135,7 @@ class genetic_algorithm:
         for i in range(0, self.individual_size):
 
             #Get a random splitting point .
-            splitpoint = int(random.uniform(0, len(parent1_bitstring)))
+            splitpoint = int(random.uniform(0, 52))
 
             #Convert both of the parents into a bitstring
             parent1_bitstring = real_to_binary(parent1[i], self.min_value, self.max_value)
