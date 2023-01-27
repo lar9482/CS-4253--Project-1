@@ -53,13 +53,13 @@ class genetic_algorithm:
                 adjusted_weight = (total_weight)/ (weights_to_population[weight_index][0])
                 weights_to_population[weight_index] = (adjusted_weight, weights_to_population[weight_index][1])
 
-        #Normalize the weights
-        min_weight = min(weights_to_population, key = itemgetter(0))[0]
-        max_weight = max(weights_to_population, key = itemgetter(0))[0]
+        # #Normalize the weights
+        # min_weight = min(weights_to_population, key = itemgetter(0))[0]
+        # max_weight = max(weights_to_population, key = itemgetter(0))[0]
 
-        for weight_index in range(0, self.population_size):
-            normalized_weight = (weights_to_population[weight_index][0] - min_weight) / (max_weight - min_weight)
-            weights_to_population[weight_index] = (normalized_weight, weights_to_population[weight_index][1])
+        # for weight_index in range(0, self.population_size):
+        #     normalized_weight = (weights_to_population[weight_index][0] - min_weight) / (max_weight - min_weight)
+        #     weights_to_population[weight_index] = (normalized_weight, weights_to_population[weight_index][1])
             
 
         #Finally, sort all of the tuples based on weight from least to greatest
@@ -113,14 +113,16 @@ class genetic_algorithm:
 
             #Console reporting
             print("Generation: %s " % (current_generation))
-            if (current_generation % 50 == 0):
+            if (current_generation % 10 == 0):
                 self.__report_progress(self.population)
 
     def __get_elite_individuals(self, weights_to_population):
         return(weights_to_population[self.population_size-1][1], weights_to_population[self.population_size-2][1])
 
     def __selection(self, weights_to_population):
-        random_num = random.uniform(0, 1)
+        min_weight = min(weights_to_population, key = itemgetter(0))[0]
+        max_weight = max(weights_to_population, key = itemgetter(0))[0]
+        random_num = random.uniform(min_weight, max_weight)
 
         #Get the 1st weight that's greater than the random_num.
         #This emulates a roulette with probability that's proportional to the weights
@@ -160,12 +162,11 @@ class genetic_algorithm:
             gene = individual[individual_index]
             gene_bitstring = real_to_binary(gene, self.min_value, self.max_value)
 
-            for bit_index in range(0, len(gene_bitstring)):
-                if (random.uniform(0, 1) < mutation_rate):   
-                    if (gene_bitstring[bit_index] == '0'):
-                        gene_bitstring = gene_bitstring[:bit_index] + '1' + gene_bitstring[bit_index+1:]
-                    else:
-                        gene_bitstring = gene_bitstring[:bit_index] + '0' + gene_bitstring[bit_index+1:]
+            bit_index = int(random.uniform(0, 52))
+            if (gene_bitstring[bit_index] == '0'):
+                gene_bitstring = gene_bitstring[:bit_index] + '1' + gene_bitstring[bit_index+1:]
+            else:
+                gene_bitstring = gene_bitstring[:bit_index] + '0' + gene_bitstring[bit_index+1:]
         
             new_gene = binary_to_real(gene_bitstring, self.min_value, self.max_value)
             new_individual[individual_index] = new_gene
@@ -181,6 +182,9 @@ class genetic_algorithm:
         
         min_fitness = np.min(raw_fitness)
         max_fitness = np.max(raw_fitness)
+
+        if (min_fitness < -100):
+            print()
         print("Max fitness: %s" % (max_fitness))
         print("Min fitness: %s" % (min_fitness))
         print()

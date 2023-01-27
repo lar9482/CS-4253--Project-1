@@ -17,25 +17,21 @@ def main():
     #run_general_tests()
 
     fitness_function = shekel
-    population_size = 100
+    population_size = 30
     individual_size = 2
     crossover_rate = 1
-    mutation_rate = 0.25
+    mutation_rate = 0.4
     min_value = 0
-    max_value = 100
+    max_value = 10
     maxProblem = False
     elitism_applied = True
 
     algo = genetic_algorithm(fitness_function, population_size, individual_size, crossover_rate, mutation_rate, min_value, max_value, maxProblem, elitism_applied)
-    algo.run_algorithm(500)
+    algo.run_algorithm(1000)
     print()
 
     #The goalish coords of shekel
     print(shekel(np.array([7.87369645, 3.42878458])))
-
-
-    test1 = np.array([3.1, 3])
-    print(shekel(test1))
 
 if __name__ == "__main__":
     main()
