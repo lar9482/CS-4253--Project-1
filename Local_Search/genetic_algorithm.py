@@ -89,10 +89,10 @@ class genetic_algorithm:
 
                     #Performing the mutation operation
                     if (random.uniform(0, 1) < self.mutation_rate):
-                        child1 = self.__mutate(child1, self.mutation_rate)
+                        child1 = self.__mutate(child1)
                 
                     if (random.uniform(0, 1) < self.mutation_rate):
-                        child2 = self.__mutate(child2, self.mutation_rate)
+                        child2 = self.__mutate(child2)
                 
                 #Appending the children to the new population
                 new_population[i] = child1
@@ -157,7 +157,7 @@ class genetic_algorithm:
 
         return (child1, child2)
 
-    def __mutate(self, individual, mutation_rate):
+    def __mutate(self, individual):
         new_individual = np.empty((self.individual_size))
         for individual_index in range(0, self.individual_size):
             gene = individual[individual_index]
