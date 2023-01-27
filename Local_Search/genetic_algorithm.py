@@ -54,8 +54,8 @@ class genetic_algorithm:
                 weights_to_population[weight_index] = (adjusted_weight, weights_to_population[weight_index][1])
 
         #Normalize the weights
-        min_weight = min(weights_to_population)[0]
-        max_weight = max(weights_to_population)[0]
+        min_weight = min(weights_to_population, key = itemgetter(0))[0]
+        max_weight = max(weights_to_population, key = itemgetter(0))[0]
 
         for weight_index in range(0, self.population_size):
             normalized_weight = (weights_to_population[weight_index][0] - min_weight) / (max_weight - min_weight)
@@ -79,10 +79,9 @@ class genetic_algorithm:
                 child2 = np.empty((self.population_size))
 
                 #If the algorithm requests elitism, the two fittest
-                #individuals from the last are copied over
-                if (self.elitism_applied):
-                
-                    print()
+                #individuals from the last generation are copied over
+                if (i == 0 and self.elitism_applied):
+                    (child1, child2) = self.__get_elite_individuals(weights_to_population)
 
                 #Else, perform the selection, crossover, and mutation operators
                 else:
@@ -117,8 +116,8 @@ class genetic_algorithm:
             if (current_generation % 50 == 0):
                 self.__report_progress(self.population)
 
-    def __get_elite_individuals(self, population, weights):
-        print()
+    def __get_elite_individuals(self, weights_to_population):
+        return(weights_to_population[self.population_size-1][1], weights_to_population[self.population_size-2][1])
 
     def __selection(self, weights_to_population):
         random_num = random.uniform(0, 1)

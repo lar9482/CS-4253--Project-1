@@ -16,18 +16,18 @@ def run_general_tests():
 def main():
     #run_general_tests()
 
-    fitness_function = sphere
-    population_size = 10
+    fitness_function = shekel
+    population_size = 100
     individual_size = 2
     crossover_rate = 1
     mutation_rate = 0.25
-    min_value = -5
-    max_value = 5
+    min_value = 0
+    max_value = 100
     maxProblem = False
-    elitism_applied = False
+    elitism_applied = True
 
     algo = genetic_algorithm(fitness_function, population_size, individual_size, crossover_rate, mutation_rate, min_value, max_value, maxProblem, elitism_applied)
-    algo.run_algorithm(1000)
+    algo.run_algorithm(500)
     print()
 
     #The goalish coords of shekel
