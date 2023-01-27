@@ -46,7 +46,7 @@ class genetic_algorithm:
         #Adjust the raw weights based on rank selection for a minimization or maximization problem.
         for weight_index in range(0, self.population_size):
             #Maximization problem
-            if self.maxProblem:
+            if maxProblem:
                 adjusted_weight = (weight_index+1) / (total_rank)
                 weights_to_population[weight_index] = (adjusted_weight, weights_to_population[weight_index][1])
 
