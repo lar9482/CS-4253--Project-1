@@ -5,17 +5,15 @@ from GA.genetic_algorithm import genetic_algorithm
 import numpy as np
 
 def run_general_tests():
-    #_plot_f(sphere, *_mesh(-5, 5, -5, 5), title="The Sphere Function")
-    #_plot_f(griew, *_mesh(0, 200, 0, 200), title="Griewank's function")
-    #_plot_f(shekel, *_mesh(0, 10, 0, 10), title="Modified Shekel's Foxholes")
-    #_plot_f(micha, *_mesh(-10, 10, -10, 10), title="Michalewitz's function")
+    _plot_f(sphere, *_mesh(-5, 5, -5, 5), title="The Sphere Function")
+    _plot_f(griew, *_mesh(0, 200, 0, 200), title="Griewank's function")
+    _plot_f(shekel, *_mesh(0, 10, 0, 10), title="Modified Shekel's Foxholes")
+    _plot_f(micha, *_mesh(-10, 10, -10, 10), title="Michalewitz's function")
     _plot_f(langermann, *_mesh(0, 10, 0, 10), title="Langermann's function")
     _plot_f(odd_square, *_mesh(-5 * np.pi, 5 * np.pi, -5 * np.pi, 5 * np.pi), title="Odd Square Function")
     _plot_f(bump, *_mesh(0.1, 5, 0.1, 5), title="The Bump Function")
 
-def main():
-    # run_general_tests()
-
+def run_genetic_algorithm_tests():
     fitness_function =sphere
     population_size = 50
     individual_size = 2
@@ -30,8 +28,9 @@ def main():
     algo.run_algorithm(250)
     print()
 
-
-    # print(shekel(np.array([5.614354, 0.91])))
+def main():
+    # run_general_tests()
+    run_genetic_algorithm_tests()
 
 if __name__ == "__main__":
     main()
