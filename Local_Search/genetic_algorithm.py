@@ -2,10 +2,11 @@ from utils.ga_util import real_to_binary, binary_to_real
 
 import random
 import numpy as np
+from operator import itemgetter
 
 class genetic_algorithm:
     def __init__(self, fitness_function, population_size = 100, individual_size = 2, crossover_rate = 0.7, mutation_rate = 0.05,
-                       min_value = 0, max_value = 10, maxProblem = True):
+                       min_value = 0, max_value = 10, maxProblem = True, elitism_applied = True):
 
         self.fitness_function = fitness_function
         self.crossover_rate = crossover_rate
@@ -17,6 +18,7 @@ class genetic_algorithm:
         self.max_value = max_value
 
         self.maxProblem = maxProblem
+        self.elitism_applied = elitism_applied
 
         self.population = self.__initialize_population(population_size, individual_size, min_value, max_value)
         
@@ -29,60 +31,78 @@ class genetic_algorithm:
         return population
 
     def __calculate_adjusted_fitness(self, population, fitness_function, maxProblem):
-        weights = np.empty((self.population_size, 1))
+        weights_to_population = []
 
-        #For every individual, calculate the raw fitness
+        #For every individual, calculate the raw weights(fitness-values)
+        #Assign raw weight and the individual to a tuple.
         for weight_index in range(0, self.population_size):
-            weights[weight_index, 0] = fitness_function(population[weight_index, :])
+            raw_weight_value = fitness_function(population[weight_index, :])
+            weights_to_population.append((raw_weight_value, population[weight_index, :]))
 
-        #Get the total sum all fitnesses
-        total_fitness = np.sum(weights)
+        #Get the total sum of all of the weights
+        total_weight = sum(fitness for fitness,individual in weights_to_population)
 
         #Adjust the weights based on minimization or maximization
         for weight_index in range(0, self.population_size):
-            #Maximazation Problem
+            #Maximization Problem
             if (maxProblem):
-                weights[weight_index, 0] = (weights[weight_index, 0]) / (total_fitness)
-            #Minimazation
+                adjusted_weight = (weights_to_population[weight_index][0]) / (total_weight)
+                weights_to_population[weight_index] = (adjusted_weight, weights_to_population[weight_index][1])
+            #Minimization
             else:
-                weights[weight_index, 0] = (total_fitness)/ (weights[weight_index, 0])
+                adjusted_weight = (total_weight)/ (weights_to_population[weight_index][0])
+                weights_to_population[weight_index] = (adjusted_weight, weights_to_population[weight_index][1])
 
         #Normalize the weights
-        min_weight = np.min(weights)
-        max_weight = np.max(weights)
+        min_weight = min(weights_to_population)[0]
+        max_weight = max(weights_to_population)[0]
 
         for weight_index in range(0, self.population_size):
-            weights[weight_index, 0] = (weights[weight_index, 0] - min_weight) / (max_weight - min_weight)
-    
-        return weights
+            normalized_weight = (weights_to_population[weight_index][0] - min_weight) / (max_weight - min_weight)
+            weights_to_population[weight_index] = (normalized_weight, weights_to_population[weight_index][1])
+            
+
+        #Finally, sort all of the tuples based on weight from least to greatest
+        weights_to_population = sorted(weights_to_population, key=itemgetter(0))
+
+        return weights_to_population
 
     def run_algorithm(self, generations = 1000):
         current_generation = 0
         while current_generation < generations:
-            weights = self.__calculate_adjusted_fitness(self.population, self.fitness_function, self.maxProblem)
+            weights_to_population = self.__calculate_adjusted_fitness(self.population, self.fitness_function, self.maxProblem)
             new_population = np.empty((self.population_size, self.individual_size))
 
             for i in range(0, int(self.population_size/2)):
-                #Performing the selection operation
-                parent1 = self.__selection(self.population, weights)
-                parent2 = self.__selection(self.population, weights)
 
                 child1 = np.empty((self.population_size))
                 child2 = np.empty((self.population_size))
 
-                #Performing the crossover operation
-                if (random.uniform(0, 1) < self.crossover_rate):
-                    (child1, child2) = self.__crossover(parent1, parent2)
-                else:
-                    child1 = parent1
-                    child2 = parent2
-
-                #Performing the mutation operation
-                if (random.uniform(0, 1) < self.mutation_rate):
-                    child1 = self.__mutate(child1, self.mutation_rate)
+                #If the algorithm requests elitism, the two fittest
+                #individuals from the last are copied over
+                if (self.elitism_applied):
                 
-                if (random.uniform(0, 1) < self.mutation_rate):
-                    child2 = self.__mutate(child2, self.mutation_rate)
+                    print()
+
+                #Else, perform the selection, crossover, and mutation operators
+                else:
+                    #Performing the selection operation
+                    parent1 = self.__selection(weights_to_population)
+                    parent2 = self.__selection(weights_to_population)
+
+                    #Performing the crossover operation
+                    if (random.uniform(0, 1) < self.crossover_rate):
+                        (child1, child2) = self.__crossover(parent1, parent2)
+                    else:
+                        child1 = parent1
+                        child2 = parent2
+
+                    #Performing the mutation operation
+                    if (random.uniform(0, 1) < self.mutation_rate):
+                        child1 = self.__mutate(child1, self.mutation_rate)
+                
+                    if (random.uniform(0, 1) < self.mutation_rate):
+                        child2 = self.__mutate(child2, self.mutation_rate)
                 
                 #Appending the children to the new population
                 new_population[i] = child1
@@ -91,28 +111,24 @@ class genetic_algorithm:
             #Finishing the current generation.
             self.population = new_population
             current_generation += 1
+
+            #Console reporting
             print("Generation: %s " % (current_generation))
             if (current_generation % 50 == 0):
                 self.__report_progress(self.population)
 
-    def __selection(self, population, weights):
-        random_num = random.uniform(0, 1)
-        choosen_weight = -1
+    def __get_elite_individuals(self, population, weights):
+        print()
 
-        #Sorting all of the weights from least to greatest
-        sorted_weights = weights[np.argsort(weights[:, 0])]
+    def __selection(self, weights_to_population):
+        random_num = random.uniform(0, 1)
 
         #Get the 1st weight that's greater than the random_num.
         #This emulates a roulette with probability that's proportional to the weights
-        for weight in sorted_weights:
-            if (random_num < weight[0]):
-                choosen_weight = weight[0]
-                break
-        
-        #Get the row index that corresponds to the choosen weight
-        choosen_index = np.argwhere(weights==choosen_weight)[0][0]
+        for i in range(0, self.population_size):
+            if (random_num < weights_to_population[i][0]):
+                return weights_to_population[i][1]
 
-        return (population[choosen_index, :])
         
     #Todo:
     #Re-work implementation of crossover.
