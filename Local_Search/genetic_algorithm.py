@@ -39,32 +39,23 @@ class genetic_algorithm:
             raw_weight_value = fitness_function(population[weight_index, :])
             weights_to_population.append((raw_weight_value, population[weight_index, :]))
 
-        #Get the total sum of all of the weights
-        total_weight = sum(fitness for fitness,individual in weights_to_population)
-
-        #Adjust the weights based on minimization or maximization
-        for weight_index in range(0, self.population_size):
-            #Maximization Problem
-            if (maxProblem):
-                adjusted_weight = (weights_to_population[weight_index][0]) / (total_weight)
-                weights_to_population[weight_index] = (adjusted_weight, weights_to_population[weight_index][1])
-            #Minimization
-            else:
-                adjusted_weight = (total_weight)/ (weights_to_population[weight_index][0])
-                weights_to_population[weight_index] = (adjusted_weight, weights_to_population[weight_index][1])
-
-        # #Normalize the weights
-        # min_weight = min(weights_to_population, key = itemgetter(0))[0]
-        # max_weight = max(weights_to_population, key = itemgetter(0))[0]
-
-        # for weight_index in range(0, self.population_size):
-        #     normalized_weight = (weights_to_population[weight_index][0] - min_weight) / (max_weight - min_weight)
-        #     weights_to_population[weight_index] = (normalized_weight, weights_to_population[weight_index][1])
-            
-
-        #Finally, sort all of the tuples based on weight from least to greatest
+        #Then, sort the raw weights from least to greatest
         weights_to_population = sorted(weights_to_population, key=itemgetter(0))
+        total_rank = ((self.population_size)*(self.population_size+1)) / 2 
 
+        #Adjust the raw weights based on rank selection for a minimization or maximization problem.
+        for weight_index in range(0, self.population_size):
+            #Maximization problem
+            if self.maxProblem:
+                adjusted_weight = (weight_index+1) / (total_rank)
+                weights_to_population[weight_index] = (adjusted_weight, weights_to_population[weight_index][1])
+
+            #Minimization problem
+            else:
+                adjusted_weight = (total_rank) / (weight_index+1)
+                weights_to_population[weight_index] = (adjusted_weight, weights_to_population[weight_index][1])
+        
+        
         return weights_to_population
 
     def run_algorithm(self, generations = 1000):
@@ -120,8 +111,12 @@ class genetic_algorithm:
         return(weights_to_population[self.population_size-1][1], weights_to_population[self.population_size-2][1])
 
     def __selection(self, weights_to_population):
+
+        #Getting the minimum weight and maximum weight from the calculated weights
         min_weight = min(weights_to_population, key = itemgetter(0))[0]
         max_weight = max(weights_to_population, key = itemgetter(0))[0]
+
+
         random_num = random.uniform(min_weight, max_weight)
 
         #Get the 1st weight that's greater than the random_num.
@@ -131,26 +126,32 @@ class genetic_algorithm:
                 return weights_to_population[i][1]
 
         
-    #Todo:
-    #Re-work implementation of crossover.
-    #I think we're intended to split the bits of each number
-    #not the numbers themselves 
     def __crossover(self, parent1, parent2):
 
         child1 = np.empty(self.individual_size)
         child2 = np.empty(self.individual_size)
 
+
         for i in range(0, self.individual_size):
-            splitpoint = int(random.uniform(0, 52))
+
+            #Get a random splitting point .
+            splitpoint = int(random.uniform(0, len(parent1_bitstring)))
+
+            #Convert both of the parents into a bitstring
             parent1_bitstring = real_to_binary(parent1[i], self.min_value, self.max_value)
             parent2_bitstring = real_to_binary(parent2[i], self.min_value, self.max_value)
 
+            #For child1, piece together the sub-bitstring of parent1 before the splitpoint and 
+            #the sub-bitstring of parent2 after the splitpoint.
+            #For child2, switch parent1 and parent2 relative placement to the splitpoint
             child1_bitstring = parent1_bitstring[0:splitpoint:1] + parent2_bitstring[splitpoint:52:1]
             child2_bitstring = parent2_bitstring[0:splitpoint:1] + parent1_bitstring[splitpoint:52:1]
 
+            #Convert the newly crossed-over bitstring back into a real number
             child1_num = binary_to_real(child1_bitstring, self.min_value, self.max_value)
             child2_num = binary_to_real(child2_bitstring, self.min_value, self.max_value)
 
+            #Store the new real number
             child1[i] = child1_num
             child2[i] = child2_num
 
@@ -162,7 +163,7 @@ class genetic_algorithm:
             gene = individual[individual_index]
             gene_bitstring = real_to_binary(gene, self.min_value, self.max_value)
 
-            bit_index = int(random.uniform(0, 52))
+            bit_index = int(random.uniform(0, len(gene_bitstring)))
             if (gene_bitstring[bit_index] == '0'):
                 gene_bitstring = gene_bitstring[:bit_index] + '1' + gene_bitstring[bit_index+1:]
             else:
@@ -183,8 +184,6 @@ class genetic_algorithm:
         min_fitness = np.min(raw_fitness)
         max_fitness = np.max(raw_fitness)
 
-        if (min_fitness < -100):
-            print()
         print("Max fitness: %s" % (max_fitness))
         print("Min fitness: %s" % (min_fitness))
         print()
