@@ -2,6 +2,7 @@ from utils.ga_util import bitstr2float, real_to_binary, binary_to_real
 from utils.ga_eval import sphere, griew, shekel, micha, langermann, odd_square, bump, _plot_f, _mesh
 import random
 from GA.genetic_algorithm import genetic_algorithm
+from SA.simulated_annealing import simulated_annealing
 import numpy as np
 
 def run_general_tests():
@@ -14,7 +15,7 @@ def run_general_tests():
     _plot_f(bump, *_mesh(0.1, 5, 0.1, 5), title="The Bump Function")
 
 def run_genetic_algorithm_tests():
-    fitness_function =sphere
+    fitness_function = sphere
     population_size = 50
     individual_size = 2
     crossover_rate = 1
@@ -27,6 +28,14 @@ def run_genetic_algorithm_tests():
     algo = genetic_algorithm(fitness_function, population_size, individual_size, crossover_rate, mutation_rate, min_value, max_value, maxProblem, elitism_applied)
     algo.run_algorithm(250)
     print()
+
+def run_simulated_annealing_tests():
+    value_function = sphere
+    min_value = -5
+    max_value = 5
+    dim = 2
+    algo = simulated_annealing(value_function, min_value, max_value, dim)
+
 
 def main():
     # run_general_tests()
