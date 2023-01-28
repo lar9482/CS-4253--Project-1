@@ -1,4 +1,5 @@
 import random
+import math
 import numpy as np
 from operator import itemgetter
 
@@ -16,7 +17,17 @@ class simulated_annealing:
             current_temperature = schedule(current_time, T_0, alpha)
             if (current_temperature <= T_Final):
                 print('done')
-                break
+                return current_state
+            next_state = self.get_random_successor_state()
+            delta_E = self.value_function(current_state) - self.value_function(next_state)
+
+            if (delta_E > 0):
+                current_state = next_state
+            else:
+                random_num = random.uniform(0, 1)
+                probability = math.exp(-(delta_E/current_temperature))
+                if random_num < probability:
+                    current_state = next_state
 
             current_time += 1
             print(current_temperature)
