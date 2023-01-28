@@ -9,6 +9,23 @@ class simulated_annealing:
         self.max_value = max_value
         self.dim = dim
 
-    def run_algorithm(self, schedule, T_0, alpha):
-        
-        print()
+    def run_algorithm(self, schedule, T_0 = 1000, T_Final = 0.1, alpha = 0.8):
+        current_time = 0
+        current_state = self.get_random_successor_state()
+        while True:
+            current_temperature = schedule(current_time, T_0, alpha)
+            if (current_temperature <= T_Final):
+                print('done')
+                break
+
+            current_time += 1
+            print(current_temperature)
+
+    def get_random_successor_state(self):
+        successor = np.empty((self.dim))
+
+        for i in range(0, self.dim):
+            random_num = random.uniform(self.min_value, self.max_value)
+            successor[i] = random_num
+
+        return successor

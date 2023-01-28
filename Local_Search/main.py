@@ -1,8 +1,10 @@
 from utils.ga_util import bitstr2float, real_to_binary, binary_to_real
 from utils.ga_eval import sphere, griew, shekel, micha, langermann, odd_square, bump, _plot_f, _mesh
-import random
+
 from GA.genetic_algorithm import genetic_algorithm
 from SA.simulated_annealing import simulated_annealing
+from SA.schedule import linear_schedule, quadratic_schedule, exponential_schedule
+
 import numpy as np
 
 def run_general_tests():
@@ -36,10 +38,17 @@ def run_simulated_annealing_tests():
     dim = 2
     algo = simulated_annealing(value_function, min_value, max_value, dim)
 
+    schedule = exponential_schedule
+    T_0 = 1000
+    T_Final = 0.01
+    alpha = 0.8
+    algo.run_algorithm(schedule, T_0, T_Final, alpha)
+
 
 def main():
     # run_general_tests()
-    run_genetic_algorithm_tests()
+    # run_genetic_algorithm_tests()
+    run_simulated_annealing_tests()
 
 if __name__ == "__main__":
     main()
