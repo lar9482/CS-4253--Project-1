@@ -1,5 +1,5 @@
 from utils.ga_util import bitstr2float, real_to_binary, binary_to_real
-from utils.ga_eval import sphere, griew, shekel, micha, langermann, odd_square, bump, _plot_f, _mesh
+from utils.ga_eval import sphere, griew, shekel, micha, langermann, odd_square, bump, _plot_f, _mesh, sphere_c
 
 from GA.genetic_algorithm import genetic_algorithm
 from SA.simulated_annealing import simulated_annealing
@@ -33,22 +33,25 @@ def run_genetic_algorithm_tests():
 
 def run_simulated_annealing_tests():
     value_function = sphere
-    min_value = -5
-    max_value = 5
+    constraint_function = sphere_c
+    min_value = -4
+    max_value = 4
     dim = 2
-    algo = simulated_annealing(value_function, min_value, max_value, dim)
+    algo = simulated_annealing(value_function, constraint_function, min_value, max_value, dim)
 
     schedule = exponential_schedule
     T_0 = 1000
-    T_Final = 0.01
-    alpha = 0.8
-    algo.run_algorithm(schedule, T_0, T_Final, alpha)
+    T_Final = 0
+    alpha = 0.001
+    test1 = algo.run_algorithm(schedule, T_0, T_Final, alpha)
+    print()
 
 
 def main():
     # run_general_tests()
     # run_genetic_algorithm_tests()
     run_simulated_annealing_tests()
+    # print(sphere(np.array([-4.829634895399511, -4.924000288382416])))
 
 if __name__ == "__main__":
     main()
