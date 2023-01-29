@@ -1,9 +1,14 @@
-#A bunch of multiplicative cooling functions 
-def exponential_schedule(t, T_0 = 1000, alpha = 0.8):
-    return (T_0)*(alpha ** t)
+import math
 
-def linear_schedule(t, T_0 = 1000, alpha = 0.8):
-    return (T_0) / (1 + alpha*t)
+#A bunch of additive cooling functions 
+# def exponential_schedule(t, T_0 = 1000, T_N = 0, n = 10):
+#     return (T_0)*(alpha ** t)
 
-def quadratic_schedule(t, T_0 = 1000, alpha = 0.8):
-    return (T_0) / (1 + alpha*(t ** 2))
+def linear_schedule(t, T_0 = 1000, T_N = 0, n = 2):
+    return (T_N) + (T_0 - T_N)*((n - t) / (n))
+
+def quadratic_schedule(t, T_0 = 1000, T_N = 0, n = 2):
+    return (T_N) + (T_0 - T_N)*(((n - t) / (n)) ** 2)
+
+def trigonometric_schedule(t, T_0 = 1000, T_N = 0, n = 2):
+    return (T_N) + 0.5*(T_0 - T_N)*(1 + math.cos((t*math.pi) / (n)))

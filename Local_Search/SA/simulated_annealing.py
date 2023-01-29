@@ -2,6 +2,7 @@ import random
 import math
 import numpy as np
 from operator import itemgetter
+from utils.ga_eval import _plot_f
 import matplotlib.pyplot as plt
 
 class simulated_annealing:
@@ -25,7 +26,7 @@ class simulated_annealing:
             if (current_temperature <= T_Final):
                 self.graph_data()
                 self.graph_schedule()
-                
+
                 print('done')
                 return current_state
 
