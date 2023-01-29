@@ -5,7 +5,6 @@
 import numpy as np
 
 
-
 #Adjacency matrix for representing a five city graph with weighted edges
 #Optimal Route: 0 -> 2 -> 1 -> 4 -> 3
 #Optimal Length: 17
@@ -18,7 +17,9 @@ TSP_5 = np.array([
     [7.0,  3.0,  8.0,  6.0,  0.0]
 ])
 
-
+#Adjacency matrix for representing a fifthteen city graph with weighted edges
+#Optimal Route: 0 -> 12 -> 1 -> 14 -> 8 -> 4 -> 6 -> 2 -> 11 -> 13 -> 9 -> 7 -> 5 -> 3 -> 10
+#Optimal Length: 262
 TSP_15 = np.array([
     [0, 29, 82, 46, 68, 52, 72, 42, 51, 55, 29, 74, 23, 72, 46],
     [29, 0, 55, 4, 42, 43, 43, 23, 23, 31, 41, 51, 11, 52, 21],
@@ -79,7 +80,7 @@ def TSP_C(tour = np.array([0, 2, 1, 4, 3])):
 
 
 
-def TSP_fitness(tour = np.array([0, 2, 1, 4, 3]), graph = TSP_5):
+def TSP_fitness(tour = np.array([0, 12, 1, 14, 8,  4,  6 , 2 , 11,  13,  9, 7,  5,  3,  10]), graph = TSP_15):
     current_index = 0
     next_index = 1
     
