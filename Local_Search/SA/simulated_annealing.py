@@ -1,7 +1,6 @@
 import random
 import math
 import numpy as np
-from operator import itemgetter
 from utils.ga_eval import _plot_f
 import matplotlib.pyplot as plt
 
@@ -31,7 +30,10 @@ class simulated_annealing:
                 return current_state
 
             next_state = self.get_random_successor_state(current_state)
-            delta_E = self.value_function(current_state) - self.value_function(next_state)
+            
+            current_value = self.value_function(current_state)
+            next_value = self.value_function(next_state)
+            delta_E = (next_value - current_value) if self.maxProblem else (current_value - next_value)
                 
             if (delta_E > 0):
                 current_state = next_state

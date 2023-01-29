@@ -1,5 +1,7 @@
 from utils.ga_util import bitstr2float, real_to_binary, binary_to_real
-from utils.ga_eval import sphere, griew, shekel, micha, langermann, odd_square, bump, _plot_f, _mesh, sphere_c, griew_c, shekel_c, langermann_c
+from utils.ga_eval import sphere, griew, shekel, micha, langermann, odd_square, bump, _plot_f, _mesh
+
+from utils.ga_eval import sphere_c, griew_c, shekel_c, micha_c, langermann_c, odd_square_c
 
 from GA.genetic_algorithm import genetic_algorithm
 from SA.simulated_annealing import simulated_annealing
@@ -38,12 +40,13 @@ def run_simulated_annealing_tests():
     min_value = 0
     max_value = 10
     dim = 2
-    algo = simulated_annealing(value_function, constraint_function, min_value, max_value, dim)
+    maxProblem = False
+    algo = simulated_annealing(value_function, constraint_function, min_value, max_value, dim, maxProblem)
 
     schedule = trigonometric_schedule
-    T_0 = 10
+    T_0 = 1
     T_Final = 0
-    k = 1000
+    k = 5000
     test1 = algo.run_algorithm(schedule, T_0, T_Final, k)
 
     print()
