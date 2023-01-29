@@ -8,7 +8,7 @@ import numpy as np
 
 #Adjacency matrix for representing a five city graph with weighted edges
 #Optimal Route: 0 -> 2 -> 1 -> 4 -> 3
-#Optimal Length: 19
+#Optimal Length: 17
 
 TSP_5 = np.array([
     [0.0,  3.0,  4.0,  2.0,  7.0],
@@ -68,25 +68,18 @@ TSP_15 = np.array([
 # ])
 
 
-def TSP_Tour_C(tour = np.array([0, 2, 1, 4, 3, 0])):
-    inner_tour = tour[1:len(tour)-1:1]
-    unique_check = np.unique(inner_tour)
 
-    if (len(unique_check) != len(inner_tour)):
+def TSP_C(tour = np.array([0, 2, 1, 4, 3])):
+    unique_check = np.unique(tour)
+
+    if (len(unique_check) != len(tour)):
         return False
 
     return True
 
-def TSP_StartEnd_C(tour = np.array([0, 2, 1, 4, 3, 0])):
-    
-    #Testing if the first and last cities are different
-    if (tour[0] != tour[len(tour)-1]):
-        return False
-    
-    return True
 
 
-def TSP_fitness(tour = np.array([0, 2, 1, 4, 3, 0]), graph = TSP_5):
+def TSP_fitness(tour = np.array([0, 2, 1, 4, 3]), graph = TSP_5):
     current_index = 0
     next_index = 1
     
@@ -102,5 +95,4 @@ def TSP_fitness(tour = np.array([0, 2, 1, 4, 3, 0]), graph = TSP_5):
     return total_length
 
 print(TSP_fitness())
-print(TSP_StartEnd_C())
-print(TSP_Tour_C())
+print(TSP_C())
