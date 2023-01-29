@@ -51,40 +51,13 @@ def run_simulated_annealing_tests():
 
     print()
 
-def plot_schedules():
-    schedule = linear_schedule
-    T_0 = 5000
-    T_N = 0
-    t = 1
-    n = 20
-
-    T = T_0
-    x = []
-    y = []
-
-    while (True):
-        if (T <= T_N):
-            plt.plot(x, y)
-            plt.xlabel('Time')
-            plt.ylabel('Temperature')
-            plt.show()
-            print('done')
-            break
-
-        T = schedule(t, T_0, T_N, n)
-        print(T)
-        x.append(t)
-        y.append(T)
-
-        t += 1
-
+def test_TSP():
+    print()
 
 def main():
     # run_general_tests()
-    # run_genetic_algorithm_tests()
-    run_simulated_annealing_tests()
-    # print(sphere(np.array([-4.829634895399511, -4.924000288382416])))
-    # plot_schedules()
+    run_genetic_algorithm_tests()
+    # run_simulated_annealing_tests()
 
 if __name__ == "__main__":
     main()
