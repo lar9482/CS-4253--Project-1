@@ -1,5 +1,5 @@
 from utils.ga_util import bitstr2float, real_to_binary, binary_to_real
-from utils.ga_eval import sphere, griew, shekel, micha, langermann, odd_square, bump, _plot_f, _mesh, sphere_c, griew_c, langermann_c
+from utils.ga_eval import sphere, griew, shekel, micha, langermann, odd_square, bump, _plot_f, _mesh, sphere_c, griew_c, shekel_c, langermann_c
 
 from GA.genetic_algorithm import genetic_algorithm
 from SA.simulated_annealing import simulated_annealing
@@ -33,19 +33,18 @@ def run_genetic_algorithm_tests():
     print()
 
 def run_simulated_annealing_tests():
-    value_function = griew
-    constraint_function = griew_c
+    value_function = shekel
+    constraint_function = shekel_c
     min_value = 0
-    max_value = 200
+    max_value = 10
     dim = 2
     algo = simulated_annealing(value_function, constraint_function, min_value, max_value, dim)
 
-    schedule = exponential_schedule
-    # T_0 = 100000000
-    T_0 = 1000
-    T_Final = 0.01
-    alpha = 0.8
-    test1 = algo.run_algorithm(schedule, T_0, T_Final, alpha)
+    schedule = trigonometric_schedule
+    T_0 = 10
+    T_Final = 0
+    k = 1000
+    test1 = algo.run_algorithm(schedule, T_0, T_Final, k)
 
     print()
 
@@ -80,9 +79,9 @@ def plot_schedules():
 def main():
     # run_general_tests()
     # run_genetic_algorithm_tests()
-    # run_simulated_annealing_tests()
+    run_simulated_annealing_tests()
     # print(sphere(np.array([-4.829634895399511, -4.924000288382416])))
-    plot_schedules()
+    # plot_schedules()
 
 if __name__ == "__main__":
     main()

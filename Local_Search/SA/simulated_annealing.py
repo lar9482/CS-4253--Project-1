@@ -18,11 +18,11 @@ class simulated_annealing:
         self.values = []
         self.temperatures = []
 
-    def run_algorithm(self, schedule, T_0 = 1000, T_Final = 0.1, alpha = 0.8):
+    def run_algorithm(self, schedule, T_0 = 1000, T_Final = 0, k = 20):
         current_time = 1
         current_state = self.get_first_state()
         while True:
-            current_temperature = schedule(current_time, T_0, alpha)
+            current_temperature = schedule(current_time, T_0, T_Final, k)
             if (current_temperature <= T_Final):
                 self.graph_data()
                 self.graph_schedule()
@@ -47,7 +47,7 @@ class simulated_annealing:
             self.add_temperature(current_temperature)
 
             current_time += 1
-            print(current_temperature)
+            
 
 
     def get_first_state(self):
