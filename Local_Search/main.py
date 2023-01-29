@@ -32,16 +32,17 @@ def run_genetic_algorithm_tests():
     print()
 
 def run_simulated_annealing_tests():
-    value_function = sphere
-    constraint_function = sphere_c
+    value_function = griew
+    constraint_function = griew_c
     min_value = 0
     max_value = 200
     dim = 2
     algo = simulated_annealing(value_function, constraint_function, min_value, max_value, dim)
 
     schedule = exponential_schedule
-    T_0 = 100000000
-    T_Final = 0
+    # T_0 = 100000000
+    T_0 = 1000
+    T_Final = 0.01
     alpha = 0.8
     test1 = algo.run_algorithm(schedule, T_0, T_Final, alpha)
 

@@ -2,6 +2,7 @@ import random
 import math
 import numpy as np
 from operator import itemgetter
+import matplotlib.pyplot as plt
 
 class simulated_annealing:
     def __init__(self, value_function, constraint_function, min_value = 0, max_value = 10, dim = 2, maxProblem = True):
@@ -12,12 +13,19 @@ class simulated_annealing:
         self.dim = dim
         self.maxProblem = maxProblem
 
+        self.times = []
+        self.values = []
+        self.temperatures = []
+
     def run_algorithm(self, schedule, T_0 = 1000, T_Final = 0.1, alpha = 0.8):
         current_time = 1
         current_state = self.get_first_state()
         while True:
             current_temperature = schedule(current_time, T_0, alpha)
             if (current_temperature <= T_Final):
+                self.graph_data()
+                self.graph_schedule()
+                
                 print('done')
                 return current_state
 
@@ -29,9 +37,13 @@ class simulated_annealing:
             else:
                 random_num = random.uniform(0, 1)
                 probability = math.exp((delta_E/current_temperature))
-                # print(probability)
+                print(probability)
                 if random_num < probability:
                     current_state = next_state
+
+            self.add_time(current_time)
+            self.add_value(self.value_function(current_state))
+            self.add_temperature(current_temperature)
 
             current_time += 1
             print(current_temperature)
@@ -54,3 +66,24 @@ class simulated_annealing:
                 successor[i] = random.gauss(0, 1) + current[i]
 
         return successor
+    
+    def add_time(self, time):
+        self.times.append(time)
+
+    def add_value(self, value):
+        self.values.append(value)
+
+    def add_temperature(self, temperature):
+        self.temperatures.append(temperature)
+
+    def graph_data(self):
+        plt.plot(self.times, self.values)
+        plt.xlabel('time')
+        plt.ylabel('value')
+        plt.show()
+
+    def graph_schedule(self):
+        plt.plot(self.times, self.temperatures)
+        plt.xlabel('time')
+        plt.ylabel('temperature')
+        plt.show()
