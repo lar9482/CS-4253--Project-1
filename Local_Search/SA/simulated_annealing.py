@@ -29,12 +29,12 @@ class simulated_annealing:
             else:
                 random_num = random.uniform(0, 1)
                 probability = math.exp((delta_E/current_temperature))
-
+                # print(probability)
                 if random_num < probability:
                     current_state = next_state
 
             current_time += 1
-            print(delta_E)
+            print(current_temperature)
 
 
     def get_first_state(self):
@@ -47,7 +47,7 @@ class simulated_annealing:
 
     def get_random_successor_state(self, current):
         successor = np.empty((self.dim))
-
+        
         for i in range(0, self.dim):
             successor[i] = random.gauss(0, 1) + current[i]
             while (not self.constraints(np.array([successor[i]]))):

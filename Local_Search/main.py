@@ -1,5 +1,5 @@
 from utils.ga_util import bitstr2float, real_to_binary, binary_to_real
-from utils.ga_eval import sphere, griew, shekel, micha, langermann, odd_square, bump, _plot_f, _mesh, sphere_c
+from utils.ga_eval import sphere, griew, shekel, micha, langermann, odd_square, bump, _plot_f, _mesh, sphere_c, griew_c, langermann_c
 
 from GA.genetic_algorithm import genetic_algorithm
 from SA.simulated_annealing import simulated_annealing
@@ -18,7 +18,7 @@ def run_general_tests():
 
 def run_genetic_algorithm_tests():
     fitness_function = sphere
-    population_size = 50
+    population_size = 30
     individual_size = 2
     crossover_rate = 1
     mutation_rate = 0.25
@@ -28,22 +28,23 @@ def run_genetic_algorithm_tests():
     elitism_applied = True
 
     algo = genetic_algorithm(fitness_function, population_size, individual_size, crossover_rate, mutation_rate, min_value, max_value, maxProblem, elitism_applied)
-    algo.run_algorithm(250)
+    algo.run_algorithm(100)
     print()
 
 def run_simulated_annealing_tests():
     value_function = sphere
     constraint_function = sphere_c
-    min_value = -4
-    max_value = 4
+    min_value = 0
+    max_value = 200
     dim = 2
     algo = simulated_annealing(value_function, constraint_function, min_value, max_value, dim)
 
     schedule = exponential_schedule
-    T_0 = 1000
+    T_0 = 100000000
     T_Final = 0
-    alpha = 0.001
+    alpha = 0.8
     test1 = algo.run_algorithm(schedule, T_0, T_Final, alpha)
+
     print()
 
 
