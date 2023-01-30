@@ -34,7 +34,7 @@ class genetic_algorithm:
         weights_to_population = []
 
         #For every individual, calculate the raw weights(fitness-values)
-        #Assign raw weight and the individual to a tuple.
+        #Assign raw weight and the individual to a single tuple.
         for weight_index in range(0, self.population_size):
             raw_weight_value = fitness_function(population[weight_index, :])
             weights_to_population.append((raw_weight_value, population[weight_index, :]))

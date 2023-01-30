@@ -65,9 +65,9 @@ def test_TSP_SA():
 
     algo = simulated_annealing_TSP(TSP_15, value_function, constraint_function, min_value, max_value, dim, maxProblem)
     schedule = trigonometric_schedule
-    T_0 = 10
+    T_0 = 50
     T_Final = 0
-    k = 100
+    k = 2500
     test1 = algo.run_algorithm(schedule, T_0, T_Final, k)
     print()
 

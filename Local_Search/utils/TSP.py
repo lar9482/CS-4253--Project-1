@@ -78,8 +78,6 @@ def TSP_C(tour = np.array([0, 2, 1, 4, 3])):
 
     return True
 
-
-
 def TSP_fitness(tour = np.array([0, 12, 1, 14, 8,  4,  6 , 2 , 11,  13,  9, 7,  5,  3,  10]), graph = TSP_15):
     current_index = 0
     next_index = 1
