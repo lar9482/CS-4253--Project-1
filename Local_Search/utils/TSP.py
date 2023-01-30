@@ -94,6 +94,3 @@ def TSP_fitness(tour = np.array([0, 12, 1, 14, 8,  4,  6 , 2 , 11,  13,  9, 7,  
         next_index += 1
 
     return total_length
-
-print(TSP_fitness())
-print(TSP_C())

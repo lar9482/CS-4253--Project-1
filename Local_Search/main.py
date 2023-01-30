@@ -6,6 +6,10 @@ from utils.ga_eval import sphere_c, griew_c, shekel_c, micha_c, langermann_c, od
 from GA.genetic_algorithm import genetic_algorithm
 from SA.simulated_annealing import simulated_annealing
 from SA.schedule import linear_schedule, quadratic_schedule, trigonometric_schedule
+
+from utils.TSP import TSP_fitness, TSP_C, TSP_5, TSP_15
+from SA.simulated_annealing_TSP import simulated_annealing_TSP
+
 import matplotlib.pyplot as plt
 
 import numpy as np
@@ -51,13 +55,28 @@ def run_simulated_annealing_tests():
 
     print()
 
-def test_TSP():
+def test_TSP_SA():
+    value_function = TSP_fitness
+    constraint_function = TSP_C
+    min_value = 0
+    max_value = 14
+    dim = 15
+    maxProblem = False
+
+    algo = simulated_annealing_TSP(TSP_15, value_function, constraint_function, min_value, max_value, dim, maxProblem)
+    schedule = trigonometric_schedule
+    T_0 = 10
+    T_Final = 0
+    k = 100
+    test1 = algo.run_algorithm(schedule, T_0, T_Final, k)
     print()
+
 
 def main():
     # run_general_tests()
-    run_genetic_algorithm_tests()
+    # run_genetic_algorithm_tests()
     # run_simulated_annealing_tests()
+    test_TSP_SA()
 
 if __name__ == "__main__":
     main()
