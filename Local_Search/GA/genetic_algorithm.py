@@ -20,9 +20,9 @@ class genetic_algorithm:
         self.maxProblem = maxProblem
         self.elitism_applied = elitism_applied
 
-        self.population = self.initialize_population(population_size, individual_size, min_value, max_value)
+        self.population = self.__initialize_population(population_size, individual_size, min_value, max_value)
         
-    def initialize_population (self, population_size, individual_size, min_value, max_value):
+    def __initialize_population(self, population_size, individual_size, min_value, max_value):
         population = np.empty((population_size, individual_size))
         for pop in range(0, population_size):
             for element in range(0, individual_size):
@@ -30,11 +30,11 @@ class genetic_algorithm:
 
         return population
 
-    def calculate_adjusted_fitness(self, population, fitness_function, maxProblem):
+    def __calculate_adjusted_fitness(self, population, fitness_function, maxProblem):
         weights_to_population = []
 
         #For every individual, calculate the raw weights(fitness-values)
-        #Assign raw weight and the individual to a single tuple.
+        #Assign raw weight and the individual to a tuple.
         for weight_index in range(0, self.population_size):
             raw_weight_value = fitness_function(population[weight_index, :])
             weights_to_population.append((raw_weight_value, population[weight_index, :]))
@@ -55,12 +55,13 @@ class genetic_algorithm:
                 adjusted_weight = (total_rank) / (weight_index+1)
                 weights_to_population[weight_index] = (adjusted_weight, weights_to_population[weight_index][1])
         
+        
         return weights_to_population
 
     def run_algorithm(self, generations = 1000):
         current_generation = 0
         while current_generation < generations:
-            weights_to_population = self.calculate_adjusted_fitness(self.population, self.fitness_function, self.maxProblem)
+            weights_to_population = self.__calculate_adjusted_fitness(self.population, self.fitness_function, self.maxProblem)
             new_population = np.empty((self.population_size, self.individual_size))
 
             for i in range(0, int(self.population_size/2)):
@@ -71,27 +72,27 @@ class genetic_algorithm:
                 #If the algorithm requests elitism, the two fittest
                 #individuals from the last generation are copied over
                 if (i == 0 and self.elitism_applied):
-                    (child1, child2) = self.get_elite_individuals(weights_to_population)
+                    (child1, child2) = self.__get_elite_individuals(weights_to_population)
 
                 #Else, perform the selection, crossover, and mutation operators
                 else:
                     #Performing the selection operation
-                    parent1 = self.selection(weights_to_population)
-                    parent2 = self.selection(weights_to_population)
+                    parent1 = self.__selection(weights_to_population)
+                    parent2 = self.__selection(weights_to_population)
 
                     #Performing the crossover operation
                     if (random.uniform(0, 1) < self.crossover_rate):
-                        (child1, child2) = self.crossover(parent1, parent2)
+                        (child1, child2) = self.__crossover(parent1, parent2)
                     else:
                         child1 = parent1
                         child2 = parent2
 
                     #Performing the mutation operation
                     if (random.uniform(0, 1) < self.mutation_rate):
-                        child1 = self.mutate(child1)
+                        child1 = self.__mutate(child1)
                 
                     if (random.uniform(0, 1) < self.mutation_rate):
-                        child2 = self.mutate(child2)
+                        child2 = self.__mutate(child2)
                 
                 #Appending the children to the new population
                 new_population[i] = child1
@@ -104,13 +105,12 @@ class genetic_algorithm:
             #Console reporting
             print("Generation: %s " % (current_generation))
             if (current_generation % 10 == 0):
-                self.report_progress(self.population)
+                self.__report_progress(self.population)
 
-    #This function may be broken
-    def get_elite_individuals(self, weights_to_population):
+    def __get_elite_individuals(self, weights_to_population):
         return(weights_to_population[self.population_size-1][1], weights_to_population[self.population_size-2][1])
 
-    def selection(self, weights_to_population):
+    def __selection(self, weights_to_population):
 
         #Getting the minimum weight and maximum weight from the calculated weights
         min_weight = min(weights_to_population, key = itemgetter(0))[0]
@@ -126,7 +126,7 @@ class genetic_algorithm:
                 return weights_to_population[i][1]
 
         
-    def crossover(self, parent1, parent2):
+    def __crossover(self, parent1, parent2):
 
         child1 = np.empty(self.individual_size)
         child2 = np.empty(self.individual_size)
@@ -157,7 +157,7 @@ class genetic_algorithm:
 
         return (child1, child2)
 
-    def mutate(self, individual):
+    def __mutate(self, individual):
         new_individual = np.empty((self.individual_size))
         for individual_index in range(0, self.individual_size):
             gene = individual[individual_index]
@@ -174,7 +174,7 @@ class genetic_algorithm:
         
         return new_individual
 
-    def report_progress(self, population):
+    def __report_progress(self, population):
         raw_fitness = np.empty((self.population_size, 1))
 
         #For every individual, calculate the raw fitness

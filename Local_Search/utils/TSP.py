@@ -84,8 +84,8 @@ def TSP_fitness(tour = np.array([0, 12, 1, 14, 8,  4,  6 , 2 , 11,  13,  9, 7,  
     
     total_length = 0
     while (next_index < (len(tour))):
-        current_city = tour[current_index]
-        next_city = tour[next_index]
+        current_city = int(tour[current_index])
+        next_city = int(tour[next_index])
         total_length += graph[current_city][next_city]
 
         current_index += 1
