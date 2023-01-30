@@ -20,9 +20,9 @@ class genetic_algorithm:
         self.maxProblem = maxProblem
         self.elitism_applied = elitism_applied
 
-        self.population = self.__initialize_population(population_size, individual_size, min_value, max_value)
+        self.population = self.initialize_population(population_size, individual_size, min_value, max_value)
         
-    def __initialize_population(self, population_size, individual_size, min_value, max_value):
+    def initialize_population (self, population_size, individual_size, min_value, max_value):
         population = np.empty((population_size, individual_size))
         for pop in range(0, population_size):
             for element in range(0, individual_size):
@@ -30,7 +30,7 @@ class genetic_algorithm:
 
         return population
 
-    def __calculate_adjusted_fitness(self, population, fitness_function, maxProblem):
+    def calculate_adjusted_fitness(self, population, fitness_function, maxProblem):
         weights_to_population = []
 
         #For every individual, calculate the raw weights(fitness-values)
@@ -107,10 +107,10 @@ class genetic_algorithm:
             if (current_generation % 10 == 0):
                 self.__report_progress(self.population)
 
-    def __get_elite_individuals(self, weights_to_population):
+    def get_elite_individuals(self, weights_to_population):
         return(weights_to_population[self.population_size-1][1], weights_to_population[self.population_size-2][1])
 
-    def __selection(self, weights_to_population):
+    def selection(self, weights_to_population):
 
         #Getting the minimum weight and maximum weight from the calculated weights
         min_weight = min(weights_to_population, key = itemgetter(0))[0]
@@ -126,7 +126,7 @@ class genetic_algorithm:
                 return weights_to_population[i][1]
 
         
-    def __crossover(self, parent1, parent2):
+    def crossover(self, parent1, parent2):
 
         child1 = np.empty(self.individual_size)
         child2 = np.empty(self.individual_size)
@@ -157,7 +157,7 @@ class genetic_algorithm:
 
         return (child1, child2)
 
-    def __mutate(self, individual):
+    def mutate(self, individual):
         new_individual = np.empty((self.individual_size))
         for individual_index in range(0, self.individual_size):
             gene = individual[individual_index]
@@ -174,7 +174,7 @@ class genetic_algorithm:
         
         return new_individual
 
-    def __report_progress(self, population):
+    def report_progress(self, population):
         raw_fitness = np.empty((self.population_size, 1))
 
         #For every individual, calculate the raw fitness
