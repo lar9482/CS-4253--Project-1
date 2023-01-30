@@ -27,7 +27,28 @@ class genetic_algorithm_TSP(genetic_algorithm):
         return population
 
     def crossover(self, parent1, parent2):
-        return super().crossover(parent1, parent2)
+        splitpoint = int(random.uniform(0, self.individual_size))
+
+        child1 = parent1[0:splitpoint:1] + parent2[splitpoint:self.individual_size-1:1]
+        child2 = parent2[0:splitpoint:1] + parent1[splitpoint:self.individual_size-1:1]
+
+        return (child1, child2)
 
     def mutate(self, individual):
-        return super().mutate(individual)
+        #Copy the values of 'individual' into a new individual
+        new_individual = np.empty(len(individual), dtype=np.int32)
+        for i in range(0, len(individual)):
+            new_individual[i] = int(individual[i])
+
+        #Get two random indexes for the new individual
+        first_index = int(random.uniform(self.min_value, self.max_value))
+        second_index = int(random.uniform(self.min_value, self.max_value))
+
+        #Ensure that the indices are not equal to guarantee some change happens
+        while (second_index == first_index):
+            second_index = int(random.uniform(self.min_value, self.max_value))
+
+        #Swap the values at the choosen indices in 'new_individual'
+        new_individual[[second_index, first_index]] = new_individual[[first_index, second_index]]
+
+        return new_individual

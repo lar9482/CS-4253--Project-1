@@ -74,22 +74,23 @@ def test_TSP_SA():
     print()
 
 def test_TSP_GA():
-    graph = TSP_5
+    graph = TSP_15
     TSP_Fitness = TSP_fitness
     TSP_c = TSP_C
 
     population_size = 20
-    individual_size = 5
+    individual_size = 15
     crossover_rate = 1
     mutation_rate = 0.25
     min_value = 0
-    max_value = 4
+    max_value = 14
     maxProblem = False
     elitism_applied = True
 
     algo = genetic_algorithm_TSP(graph, TSP_Fitness, TSP_c, population_size, individual_size, crossover_rate,
                                  mutation_rate, min_value, max_value, maxProblem, elitism_applied)
     algo.run_algorithm(100)
+    print()
 
 def main():
     # run_general_tests()

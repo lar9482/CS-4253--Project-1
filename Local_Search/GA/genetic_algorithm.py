@@ -55,7 +55,6 @@ class genetic_algorithm:
                 adjusted_weight = (total_rank) / (weight_index+1)
                 weights_to_population[weight_index] = (adjusted_weight, weights_to_population[weight_index][1])
         
-        
         return weights_to_population
 
     def run_algorithm(self, generations = 1000):
@@ -107,6 +106,7 @@ class genetic_algorithm:
             if (current_generation % 10 == 0):
                 self.report_progress(self.population)
 
+    #This function may be broken
     def get_elite_individuals(self, weights_to_population):
         return(weights_to_population[self.population_size-1][1], weights_to_population[self.population_size-2][1])
 
