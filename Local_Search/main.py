@@ -78,7 +78,7 @@ def test_TSP_GA():
     TSP_Fitness = TSP_fitness
     TSP_c = TSP_C
 
-    population_size = 100
+    population_size = 10
     individual_size = 15
     crossover_rate = 1
     mutation_rate = 0.35
@@ -94,10 +94,10 @@ def test_TSP_GA():
 
 def main():
     # run_general_tests()
-    run_genetic_algorithm_tests()
+    # run_genetic_algorithm_tests()
     # run_simulated_annealing_tests()
     # test_TSP_SA()
-    # test_TSP_GA()
+    test_TSP_GA()
 
 if __name__ == "__main__":
     main()
