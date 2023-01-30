@@ -2,6 +2,7 @@ import os
 import sys
 
 from Data_Items.Label_Item import Label_Item
+import matplotlib.pyplot as plt
 
 def load_labeled_examples():
     labeled_item_list = []
@@ -19,18 +20,33 @@ def load_labeled_examples():
     
     return labeled_item_list
 
-def save_labeled_accuracies(all_accuracies, store_all, shuffle, file_name):
+def graph_results(results, figure_name):
+    possibleColors = ['r', 'b', 'g', 'm', 'c', 'k', 'y', '#FFA500']
+    currentColorIndex = 0
+    legendList = []
+    for KNN_Variant in results.keys():
+        all_k = []
+        all_training_accuracies = []
+        all_testing_accuracies = []
+        for k in results[KNN_Variant]:
+            all_k.append(k[3])
+        for train_acc in results[KNN_Variant]:
+            all_training_accuracies.append(train_acc[0])
+        for test_acc in results[KNN_Variant]:
+            all_testing_accuracies.append(test_acc[1])
 
-    filePath = os.path.join(sys.path[0], "Results", file_name)
-    
-    with open(filePath, "w") as f:
-        f.write("Store_All: {store_all}\n".format(store_all = store_all))
-        f.write("Shuffle: {shuffle}\n\n".format(shuffle = shuffle))
-        for accuracy in all_accuracies:
-            f.write("N: {n}\n".format(n = accuracy[2]))
-            f.write("K: {k}\n".format(k = accuracy[3]))
-            f.write("Average Training Accuracy: {training}\n".format(training = accuracy[0]))
-            f.write("Average Testing Accuracy: {testing}\n".format(testing = accuracy[1]))
-            f.write("\n")
-        
-        f.close()
+        plt.plot(all_k, all_training_accuracies, color = possibleColors[currentColorIndex], label = KNN_Variant + "_TN")
+        currentColorIndex += 1
+
+        plt.plot(all_k, all_testing_accuracies, possibleColors[currentColorIndex], label = KNN_Variant + "_TT")
+        currentColorIndex += 1
+
+        legendList.append(KNN_Variant + "_TN")
+        legendList.append(KNN_Variant + "_TT")
+
+    plt.legend(bbox_to_anchor=(1.15, 1), loc='upper right')
+    plt.xlabel('K')
+    plt.ylabel('Accuracy')
+
+    filePath = os.path.join(sys.path[0], "Results", figure_name)
+    plt.savefig(filePath)

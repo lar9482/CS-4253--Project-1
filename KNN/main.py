@@ -1,11 +1,13 @@
 from Data_Items.Label_Item import Label_Item
-from file_io import load_labeled_examples, save_labeled_accuracies
+from file_io import load_labeled_examples, save_labeled_accuracies, graph_results
 from KNN import KNN
 from N_Fold import N_Fold
 
 import random
 import time
 import sys
+from operator import itemgetter
+import matplotlib.pyplot as plt
 
 from multiprocessing import Process, Lock, Manager
 
@@ -58,21 +60,26 @@ def concurrent_run_labeled_examples(n, kMin, kMax, store_all = True, shuffle = T
         all_accuracies = list(shared_accuracy_list)
 
     print(time.time() - start_time)
-    save_labeled_accuracies(all_accuracies, store_all, shuffle, file_name)
-    
+
+    #Sorting the accuracies based on k
+    all_accuracies = sorted(all_accuracies, key = itemgetter(3))
+
+
+    return all_accuracies
 
 def main():
     n = 5
 
-    kMin = 5
+    kMin = 1
     kMax = 100
 
-    concurrent_run_labeled_examples(n, kMin, kMax, True, True, "Store_All(Shuffled).txt")
-    # concurrent_run_labeled_examples(n, kMin, kMax, True, False, "Store_All(Not-Shuffled).txt")
-    # concurrent_run_labeled_examples(n, kMin, kMax, False, True, "Store_Errors(Shuffled).txt")
-    # concurrent_run_labeled_examples(n, kMin, kMax, False, False, "Store_Errors(Not-Shuffled).txt")
-    test = load_labeled_examples()
-    print(sys.path[0])
+    allResults = {}
+    allResults["All_S"] = concurrent_run_labeled_examples(n, kMin, kMax, True, True, "Store_All(Shuffled).txt")
+    allResults["All_NS"] = concurrent_run_labeled_examples(n, kMin, kMax, True, False, "Store_All(Not-Shuffled).txt")
+    allResults["Err_S"] = concurrent_run_labeled_examples(n, kMin, kMax, False, True, "Store_Errors(Shuffled).txt")
+    allResults["Err_NS"] = concurrent_run_labeled_examples(n, kMin, kMax, False, False, "Store_Errors(Not-Shuffled).txt")
+    graph_results(allResults, "KNN-Labeled-Examples.png")
+
     
 
 if __name__ == "__main__":
