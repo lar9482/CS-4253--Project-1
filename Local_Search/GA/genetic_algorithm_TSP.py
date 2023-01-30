@@ -28,23 +28,10 @@ class genetic_algorithm_TSP(genetic_algorithm):
 
     #Implementing ordered crossover
     def crossover(self, parent1, parent2):
-        first_splitpoint = int(random.uniform(0, self.individual_size))
-        second_splitpoint = int(random.uniform(0, self.individual_size))
+        splitpoint = int(random.uniform(0, self.individual_size))
 
-        while (second_splitpoint < first_splitpoint):
-             second_splitpoint = int(random.uniform(0, self.individual_size))
-
-        # print(parent1[0:first_splitpoint:1])
-        # print(parent2[first_splitpoint:second_splitpoint:1])
-        # print()
-        # print(parent2[0:first_splitpoint:1])
-        # print(parent1[first_splitpoint:second_splitpoint:1])
-
-        child1 = np.concatenate((parent1[0:first_splitpoint:1], parent2[first_splitpoint:second_splitpoint:1]))
-        child2 = np.concatenate((parent2[0:first_splitpoint:1], parent1[first_splitpoint:second_splitpoint:1]))
-
-        child1 = np.concatenate((child1, parent1[second_splitpoint:self.individual_size:1]))
-        child2 = np.concatenate((child2, parent2[second_splitpoint:self.individual_size:1]))
+        child1 = np.concatenate((parent1[0:splitpoint:1], parent2[splitpoint:self.individual_size:1]))
+        child2 = np.concatenate((parent2[0:splitpoint:1], parent1[splitpoint:self.individual_size:1]))
 
         return (child1, child2)
 

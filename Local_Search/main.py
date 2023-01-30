@@ -78,7 +78,7 @@ def test_TSP_GA():
     TSP_Fitness = TSP_fitness
     TSP_c = TSP_C
 
-    population_size = 10
+    population_size = 50
     individual_size = 15
     crossover_rate = 1
     mutation_rate = 0.35

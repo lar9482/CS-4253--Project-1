@@ -20,9 +20,9 @@ class genetic_algorithm:
         self.maxProblem = maxProblem
         self.elitism_applied = elitism_applied
 
-        self.population = self.__initialize_population(population_size, individual_size, min_value, max_value)
+        self.population = self.initialize_population(population_size, individual_size, min_value, max_value)
         
-    def __initialize_population(self, population_size, individual_size, min_value, max_value):
+    def initialize_population(self, population_size, individual_size, min_value, max_value):
         population = np.empty((population_size, individual_size))
         for pop in range(0, population_size):
             for element in range(0, individual_size):
@@ -30,7 +30,7 @@ class genetic_algorithm:
 
         return population
 
-    def __calculate_adjusted_fitness(self, population, fitness_function, maxProblem):
+    def calculate_adjusted_fitness(self, population, fitness_function, maxProblem):
         weights_to_population = []
 
         #For every individual, calculate the raw weights(fitness-values)
@@ -61,7 +61,7 @@ class genetic_algorithm:
     def run_algorithm(self, generations = 1000):
         current_generation = 0
         while current_generation < generations:
-            weights_to_population = self.__calculate_adjusted_fitness(self.population, self.fitness_function, self.maxProblem)
+            weights_to_population = self.calculate_adjusted_fitness(self.population, self.fitness_function, self.maxProblem)
             new_population = np.empty((self.population_size, self.individual_size))
 
             for i in range(0, int(self.population_size/2)):
@@ -82,17 +82,17 @@ class genetic_algorithm:
 
                     #Performing the crossover operation
                     if (random.uniform(0, 1) < self.crossover_rate):
-                        (child1, child2) = self.__crossover(parent1, parent2)
+                        (child1, child2) = self.crossover(parent1, parent2)
                     else:
                         child1 = parent1
                         child2 = parent2
 
                     #Performing the mutation operation
                     if (random.uniform(0, 1) < self.mutation_rate):
-                        child1 = self.__mutate(child1)
+                        child1 = self.mutate(child1)
                 
                     if (random.uniform(0, 1) < self.mutation_rate):
-                        child2 = self.__mutate(child2)
+                        child2 = self.mutate(child2)
                 
                 #Appending the children to the new population
                 new_population[i] = child1
@@ -126,7 +126,7 @@ class genetic_algorithm:
                 return weights_to_population[i][1]
 
         
-    def __crossover(self, parent1, parent2):
+    def crossover(self, parent1, parent2):
 
         child1 = np.empty(self.individual_size)
         child2 = np.empty(self.individual_size)
@@ -157,7 +157,7 @@ class genetic_algorithm:
 
         return (child1, child2)
 
-    def __mutate(self, individual):
+    def mutate(self, individual):
         new_individual = np.empty((self.individual_size))
         for individual_index in range(0, self.individual_size):
             gene = individual[individual_index]
