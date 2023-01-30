@@ -61,7 +61,7 @@ class genetic_algorithm:
     def run_algorithm(self, generations = 1000):
         current_generation = 0
         while current_generation < generations:
-            weights_to_population = self.__calculate_adjusted_fitness(self.population, self.fitness_function, self.maxProblem)
+            weights_to_population = self.calculate_adjusted_fitness(self.population, self.fitness_function, self.maxProblem)
             new_population = np.empty((self.population_size, self.individual_size))
 
             for i in range(0, int(self.population_size/2)):
@@ -72,27 +72,27 @@ class genetic_algorithm:
                 #If the algorithm requests elitism, the two fittest
                 #individuals from the last generation are copied over
                 if (i == 0 and self.elitism_applied):
-                    (child1, child2) = self.__get_elite_individuals(weights_to_population)
+                    (child1, child2) = self.get_elite_individuals(weights_to_population)
 
                 #Else, perform the selection, crossover, and mutation operators
                 else:
                     #Performing the selection operation
-                    parent1 = self.__selection(weights_to_population)
-                    parent2 = self.__selection(weights_to_population)
+                    parent1 = self.selection(weights_to_population)
+                    parent2 = self.selection(weights_to_population)
 
                     #Performing the crossover operation
                     if (random.uniform(0, 1) < self.crossover_rate):
-                        (child1, child2) = self.__crossover(parent1, parent2)
+                        (child1, child2) = self.crossover(parent1, parent2)
                     else:
                         child1 = parent1
                         child2 = parent2
 
                     #Performing the mutation operation
                     if (random.uniform(0, 1) < self.mutation_rate):
-                        child1 = self.__mutate(child1)
+                        child1 = self.mutate(child1)
                 
                     if (random.uniform(0, 1) < self.mutation_rate):
-                        child2 = self.__mutate(child2)
+                        child2 = self.mutate(child2)
                 
                 #Appending the children to the new population
                 new_population[i] = child1
@@ -105,7 +105,7 @@ class genetic_algorithm:
             #Console reporting
             print("Generation: %s " % (current_generation))
             if (current_generation % 10 == 0):
-                self.__report_progress(self.population)
+                self.report_progress(self.population)
 
     def get_elite_individuals(self, weights_to_population):
         return(weights_to_population[self.population_size-1][1], weights_to_population[self.population_size-2][1])
