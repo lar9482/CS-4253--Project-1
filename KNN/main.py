@@ -30,7 +30,7 @@ def N_Fold_labeled_examples(lock, shared_accuracy_list, n, k, store_all = True, 
     lock.release()
     
 
-def concurrent_run_labeled_examples(nMin, nMax, kMin, kMax, store_all = True, shuffle = True, file_name = "labeled-accuracies.txt"):
+def concurrent_run_labeled_examples(n, kMin, kMax, store_all = True, shuffle = True, file_name = "labeled-accuracies.txt"):
     start_time = time.time()
     all_accuracies = []
 
@@ -40,13 +40,13 @@ def concurrent_run_labeled_examples(nMin, nMax, kMin, kMax, store_all = True, sh
         lock = manager.Lock()
         shared_accuracy_list = manager.list()
 
-        for n in range(nMin, nMax+1):
-            for k in range(kMin, kMax+1):
-                if (k % 2 == 0):
-                    continue
+        
+        for k in range(kMin, kMax+1):
+            if (k % 2 == 0):
+                continue
 
-                process = Process(target=N_Fold_labeled_examples, args=(lock, shared_accuracy_list, n, k, store_all, shuffle))
-                all_processes.append(process)
+            process = Process(target=N_Fold_labeled_examples, args=(lock, shared_accuracy_list, n, k, store_all, shuffle))
+            all_processes.append(process)
             
         for process in all_processes:
             process.start()
@@ -61,17 +61,16 @@ def concurrent_run_labeled_examples(nMin, nMax, kMin, kMax, store_all = True, sh
     
 
 def main():
-    nMin = 5
-    nMax = 5
+    n = 5
 
     kMin = 5
     kMax = 100
 
     # concurrent_run_labeled_examples(nMin, nMax, kMin, kMax, store_all, shuffle, "labeled-accuracies.txt")
-    concurrent_run_labeled_examples(nMin, nMax, kMin, kMax, True, True, "Store_All(Shuffled).txt")
-    concurrent_run_labeled_examples(nMin, nMax, kMin, kMax, True, False, "Store_All(Not-Shuffled).txt")
-    concurrent_run_labeled_examples(nMin, nMax, kMin, kMax, False, True, "Store_Errors(Shuffled).txt")
-    concurrent_run_labeled_examples(nMin, nMax, kMin, kMax, False, False, "Store_Errors(Not-Shuffled).txt")
+    concurrent_run_labeled_examples(n, kMin, kMax, True, True, "Store_All(Shuffled).txt")
+    concurrent_run_labeled_examples(n, kMin, kMax, True, False, "Store_All(Not-Shuffled).txt")
+    concurrent_run_labeled_examples(n, kMin, kMax, False, True, "Store_Errors(Shuffled).txt")
+    concurrent_run_labeled_examples(n, kMin, kMax, False, False, "Store_Errors(Not-Shuffled).txt")
     
 
 if __name__ == "__main__":

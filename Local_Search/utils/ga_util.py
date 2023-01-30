@@ -1,9 +1,6 @@
 import struct
 from binary_fractions import Binary
 
-realBitLength = 7
-fractionBitLength = 52
-
 def bitstr2float(s):
     """Transforms a bit representation of a number between 0 and 1 to a
     floating point number. This is less error-prone (I believe) than
@@ -23,7 +20,10 @@ def bitstr2float(s):
     b = '0b001111111111{}'.format(s)
     return struct.unpack('d', struct.pack('Q', int(b, 0)))[0] - 1
 
-
+############################################################################################################
+#Custom code below:
+#These are meant to easily convert real numbers into bitstrings and back within a given range
+fractionBitLength = 52
 def real_to_binary(num, min_value, max_value):
 
     #Normalizing the input number

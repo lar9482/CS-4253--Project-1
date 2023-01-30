@@ -4,7 +4,7 @@ import math
 #Source:
 #http://what-when-how.com/artificial-intelligence/a-comparison-of-cooling-schedules-for-simulated-annealing-artificial-intelligence/
 
-#Either bias toward exploitation or exploration
+#Neither bias toward exploitation nor exploration
 def linear_schedule(t, T_0 = 1000, T_N = 0, n = 20):
     return (T_N) + (T_0 - T_N)*((n - t) / (n))
 
