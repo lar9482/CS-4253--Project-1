@@ -8,18 +8,31 @@ class genetic_algorithm:
     def __init__(self, fitness_function, population_size = 100, individual_size = 2, crossover_rate = 0.7, mutation_rate = 0.05,
                        min_value = 0, max_value = 10, maxProblem = True, elitism_applied = True):
 
+        #The fitness function to evaluate each of the individuals in the population
         self.fitness_function = fitness_function
+
+        #The probability for a crossover to occur between two parent individuals
         self.crossover_rate = crossover_rate
+
+        #The probability for a mutation to occur for an individual
         self.mutation_rate = mutation_rate
         
+        #The number of the individuals in a population pool
         self.population_size = population_size
+        #The length of every individual
         self.individual_size = individual_size
+
+        #The constraints for the fitness function
         self.min_value = min_value
         self.max_value = max_value
 
+        #The boolean to specify if the algorithm is minimizing or maximizing the function
         self.maxProblem = maxProblem
+
+        #The boolean to specify if the algorithm should apply elitism
         self.elitism_applied = elitism_applied
 
+        #The population pool itself
         self.population = self.initialize_population(population_size, individual_size, min_value, max_value)
         
     def initialize_population(self, population_size, individual_size, min_value, max_value):
@@ -58,6 +71,8 @@ class genetic_algorithm:
         
         return weights_to_population
 
+    #The "main" function for the genetic algorithm
+    #This will actually execute the entire algorithm according to Figure 4.8
     def run_algorithm(self, generations = 1000):
         current_generation = 0
         while current_generation < generations:
