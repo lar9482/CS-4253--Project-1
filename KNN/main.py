@@ -5,6 +5,7 @@ from N_Fold import N_Fold
 
 import random
 import time
+import sys
 
 from multiprocessing import Process, Lock, Manager
 
@@ -66,11 +67,12 @@ def main():
     kMin = 5
     kMax = 100
 
-    # concurrent_run_labeled_examples(nMin, nMax, kMin, kMax, store_all, shuffle, "labeled-accuracies.txt")
     concurrent_run_labeled_examples(n, kMin, kMax, True, True, "Store_All(Shuffled).txt")
-    concurrent_run_labeled_examples(n, kMin, kMax, True, False, "Store_All(Not-Shuffled).txt")
-    concurrent_run_labeled_examples(n, kMin, kMax, False, True, "Store_Errors(Shuffled).txt")
-    concurrent_run_labeled_examples(n, kMin, kMax, False, False, "Store_Errors(Not-Shuffled).txt")
+    # concurrent_run_labeled_examples(n, kMin, kMax, True, False, "Store_All(Not-Shuffled).txt")
+    # concurrent_run_labeled_examples(n, kMin, kMax, False, True, "Store_Errors(Shuffled).txt")
+    # concurrent_run_labeled_examples(n, kMin, kMax, False, False, "Store_Errors(Not-Shuffled).txt")
+    test = load_labeled_examples()
+    print(sys.path[0])
     
 
 if __name__ == "__main__":
