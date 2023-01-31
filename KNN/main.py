@@ -1,5 +1,5 @@
 from Data_Items.Label_Item import Label_Item
-from file_io import load_labeled_examples, save_labeled_accuracies, graph_results
+from file_io import load_labeled_examples, load_EMG_data, graph_results
 from KNN import KNN
 from N_Fold import N_Fold
 
@@ -11,10 +11,17 @@ import matplotlib.pyplot as plt
 
 from multiprocessing import Process, Lock, Manager
 
-def N_Fold_labeled_examples(lock, shared_accuracy_list, n, k, store_all = True, shuffle = True):
+def N_Fold_labeled_examples(lock, shared_accuracy_list, n, k, store_all = True, shuffle = True, dataset_name = "labeled_examples"):
+
 
     #Loading in the labeled examples dataset
-    dataset = load_labeled_examples()
+    dataset = []
+    if dataset_name == "labeled_examples":
+        dataset = load_labeled_examples()
+    elif dataset_name == "EMG_data":
+        dataset = load_EMG_data()
+    else:
+        raise Exception("Invalid dataset requested")
 
     #shuffling the dataset if required to.
     if (shuffle):
@@ -33,7 +40,7 @@ def N_Fold_labeled_examples(lock, shared_accuracy_list, n, k, store_all = True, 
     lock.release()
     
 
-def concurrent_run_labeled_examples(n, kMin, kMax, store_all = True, shuffle = True, file_name = "labeled-accuracies.txt"):
+def concurrent_run_labeled_examples(n, kMin, kMax, store_all = True, shuffle = True, dataset_name = "labeled_examples"):
     start_time = time.time()
     all_accuracies = []
 
@@ -48,7 +55,7 @@ def concurrent_run_labeled_examples(n, kMin, kMax, store_all = True, shuffle = T
             if (k % 2 == 0):
                 continue
 
-            process = Process(target=N_Fold_labeled_examples, args=(lock, shared_accuracy_list, n, k, store_all, shuffle))
+            process = Process(target=N_Fold_labeled_examples, args=(lock, shared_accuracy_list, n, k, store_all, shuffle, dataset_name))
             all_processes.append(process)
             
         for process in all_processes:
@@ -63,7 +70,7 @@ def concurrent_run_labeled_examples(n, kMin, kMax, store_all = True, shuffle = T
 
     #Sorting the accuracies based on k
     all_accuracies = sorted(all_accuracies, key = itemgetter(3))
-
+    
 
     return all_accuracies
 
@@ -74,11 +81,12 @@ def main():
     kMax = 100
 
     allResults = {}
-    allResults["All_S"] = concurrent_run_labeled_examples(n, kMin, kMax, True, True, "Store_All(Shuffled).txt")
-    allResults["All_NS"] = concurrent_run_labeled_examples(n, kMin, kMax, True, False, "Store_All(Not-Shuffled).txt")
-    allResults["Err_S"] = concurrent_run_labeled_examples(n, kMin, kMax, False, True, "Store_Errors(Shuffled).txt")
-    allResults["Err_NS"] = concurrent_run_labeled_examples(n, kMin, kMax, False, False, "Store_Errors(Not-Shuffled).txt")
-    graph_results(allResults, "KNN-Labeled-Examples.png")
+    allResults["All_S"] = concurrent_run_labeled_examples(n, kMin, kMax, True, True, "EMG_data")
+    allResults["All_NS"] = concurrent_run_labeled_examples(n, kMin, kMax, True, False, "EMG_data")
+    allResults["Err_S"] = concurrent_run_labeled_examples(n, kMin, kMax, False, True, "EMG_data")
+    allResults["Err_NS"] = concurrent_run_labeled_examples(n, kMin, kMax, False, False, "EMG_data")
+    graph_results(allResults, "KNN-EMG-Data.png")
+
 
     
 

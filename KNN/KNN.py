@@ -14,6 +14,7 @@ class KNN:
 
     def train(self, train_dataset = placeholder_dataset, store_all = True):
         #Store all variant
+        print("Training now")
         if store_all:
             for item in train_dataset:
                 self.store.append(item)
@@ -27,6 +28,7 @@ class KNN:
 
                 #If a key-value pair between an class name and count hasn't been
                 #established yet.
+                
                 if (storedClasses_soFar.get(item.class_name) is None):
                     storedClasses_soFar[item.class_name] = 1
 
@@ -47,6 +49,7 @@ class KNN:
 
 
     def classify(self, item):
+        print("Classify now")
         distance_item = {}
         # distance_item: {distance: item}
 
