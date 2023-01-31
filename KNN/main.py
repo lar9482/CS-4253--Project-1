@@ -78,7 +78,7 @@ def main():
     n = 5
 
     kMin = 1
-    kMax = 100
+    kMax = 30
 
     allResults = {}
     allResults["All_S"] = concurrent_run_labeled_examples(n, kMin, kMax, True, True, "EMG_data")

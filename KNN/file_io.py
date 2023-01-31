@@ -21,7 +21,7 @@ def load_labeled_examples():
     
     return labeled_item_list
 
-def load_EMG_data(folder = "sub2", subsection = 500):
+def load_EMG_data(folder = "sub2", subsection = 250):
     parent_folder = "EMG Physical Action Data Set"
     classifications = ["Elbowing.txt", "Frontkicking.txt", "Hamering.txt", "Headering.txt", "Kneeing.txt",
                        "Pulling.txt", "Punching.txt", "Pushing.txt", "Sidekicking.txt", "Slapping.txt",
