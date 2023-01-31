@@ -4,8 +4,12 @@ import numpy as np
 from utils.ga_eval import _plot_f
 import matplotlib.pyplot as plt
 
+import os
+import sys
+
 class simulated_annealing:
     def __init__(self, value_function, constraint_function, min_value = 0, max_value = 10, dim = 2, maxProblem = True):
+        #Attributes for the algorithm
         self.value_function = value_function
         self.constraints = constraint_function
         self.min_value = min_value
@@ -13,9 +17,9 @@ class simulated_annealing:
         self.dim = dim
         self.maxProblem = maxProblem
 
+        #Attributes for graphing
         self.times = []
         self.values = []
-        self.temperatures = []
 
     def run_algorithm(self, schedule, T_0 = 1000, T_Final = 0, k = 20):
 
@@ -27,8 +31,7 @@ class simulated_annealing:
         while True:
             current_temperature = schedule(current_time, T_0, T_Final, k)
             if (current_temperature <= T_Final):
-                self.graph_data()
-                self.graph_schedule()
+                self.graph_data(schedule)
 
                 print('done')
                 return current_state
@@ -56,7 +59,6 @@ class simulated_annealing:
 
             self.add_time(current_time)
             self.add_value(self.value_function(current_state))
-            self.add_temperature(current_temperature)
 
             current_time += 1
             
@@ -81,24 +83,23 @@ class simulated_annealing:
 
         return successor
     
-    #Function to help visualize the process
+    #Function to help visualize simulated annealing on a particular process
     def add_time(self, time):
         self.times.append(time)
 
     def add_value(self, value):
         self.values.append(value)
 
-    def add_temperature(self, temperature):
-        self.temperatures.append(temperature)
-
-    def graph_data(self):
+    def graph_data(self, schedule):
         plt.plot(self.times, self.values)
         plt.xlabel('time')
         plt.ylabel('value')
-        plt.show()
 
-    def graph_schedule(self):
-        plt.plot(self.times, self.temperatures)
-        plt.xlabel('time')
-        plt.ylabel('temperature')
-        plt.show()
+        file_name = str(self.value_function).split(' ')[1]
+
+        if (file_name=='method'):
+            file_name = 'TSP'
+        file_name = file_name + '_' + str(schedule).split(' ')[1] + '.png'
+
+        filePath = os.path.join(sys.path[0], "Results", file_name)
+        plt.savefig(filePath)

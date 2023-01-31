@@ -95,8 +95,8 @@ def test_TSP_GA():
 def main():
     # run_general_tests()
     # run_genetic_algorithm_tests()
-    run_simulated_annealing_tests()
-    # test_TSP_SA()
+    # run_simulated_annealing_tests()
+    test_TSP_SA()
     # test_TSP_GA()
 
 if __name__ == "__main__":
