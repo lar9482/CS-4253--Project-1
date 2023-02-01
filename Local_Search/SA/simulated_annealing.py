@@ -121,3 +121,4 @@ class simulated_annealing:
 
         filePath = os.path.join(sys.path[0], "Results", "SA", file_name)
         plt.savefig(filePath)
+        plt.clf()
