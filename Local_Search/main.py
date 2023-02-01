@@ -25,16 +25,17 @@ def run_general_tests():
     #_plot_f(micha, *_mesh(-10, 10, -10, 10), title="Michalewitz's function")
     #_plot_f(langermann, *_mesh(0, 10, 0, 10), title="Langermann's function")
     # _plot_f(odd_square, *_mesh(-5 * np.pi, 5 * np.pi, -5 * np.pi, 5 * np.pi), title="Odd Square Function")
-    _plot_f(bump, *_mesh(0.1, 5, 0.1, 5), title="The Bump Function")
+    # _plot_f(bump, *_mesh(0.1, 5, 0.1, 5), title="The Bump Function")
+    _plot_f(bump, *_mesh(0.001, 100, 0.001, 100), title="The Bump Function")
 
 def run_genetic_algorithm_tests():
-    fitness_function = sphere
-    population_size = 10
+    fitness_function = odd_square
+    population_size = 250
     individual_size = 2
     crossover_rate = 1
-    mutation_rate = 0.25
-    min_value = -5
-    max_value = 5
+    mutation_rate = 0.01
+    min_value = -5*np.pi
+    max_value = 5*np.pi
     maxProblem = False
     elitism_applied = True
 

@@ -81,11 +81,11 @@ def main():
     kMax = 30
 
     allResults = {}
-    allResults["All_S"] = concurrent_run_labeled_examples(n, kMin, kMax, True, True, "EMG_data")
-    allResults["All_NS"] = concurrent_run_labeled_examples(n, kMin, kMax, True, False, "EMG_data")
-    allResults["Err_S"] = concurrent_run_labeled_examples(n, kMin, kMax, False, True, "EMG_data")
-    allResults["Err_NS"] = concurrent_run_labeled_examples(n, kMin, kMax, False, False, "EMG_data")
-    graph_results(allResults, "KNN-EMG-Data.png")
+    allResults["All_S"] = concurrent_run_labeled_examples(n, kMin, kMax, True, True, "labeled_examples")
+    allResults["All_NS"] = concurrent_run_labeled_examples(n, kMin, kMax, True, False, "labeled_examples")
+    allResults["Err_S"] = concurrent_run_labeled_examples(n, kMin, kMax, False, True, "labeled_examples")
+    allResults["Err_NS"] = concurrent_run_labeled_examples(n, kMin, kMax, False, False, "labeled_examples")
+    graph_results(allResults, "labeled_examples.png")
 
 
     

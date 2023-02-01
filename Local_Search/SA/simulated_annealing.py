@@ -81,13 +81,19 @@ class simulated_annealing:
         #Case to handle the bump function
         if (str(self.value_function).split(' ')[1] == 'bump'):
             while True:
-                index = random.uniform(0, 1)
+                index = int(random.uniform(0, 1))
 
-                successor[0] = random.gauss(0, 1) + current[int(index)]
-                infer_min_value = (self.min_value) / (successor[0])
-                infer_max_value = (self.max_value) - (successor[0])
-
-                successor[1] = random.uniform(infer_min_value, infer_max_value)
+                successor[index] = random.gauss(0, 1) + current[index]
+                while (not (successor[index] >= self.min_value and successor[index] <= self.max_value)):
+                    successor[index] = random.gauss(0, 1) * current[index]
+                
+                infer_min_value = (0.75) / (successor[index])
+                infer_max_value = (7.5*len(successor)) - (successor[index])
+                if index==0:
+                    successor[1] = random.uniform(infer_min_value, infer_max_value)
+                else:
+                    successor[0] = random.uniform(infer_min_value, infer_max_value)
+                
                 if (self.constraints(successor)):
                     return successor
 
