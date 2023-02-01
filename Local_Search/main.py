@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 import math
 import numpy as np
 
-from SA_Tests import SA_function_tests
+from SA_Tests import SA_function_tests, SA_TSP_tests
 
 def run_general_tests():
     #_plot_f(sphere, *_mesh(-5, 5, -5, 5), title="The Sphere Function")
@@ -102,7 +102,8 @@ def main():
     # run_simulated_annealing_tests()
     # test_TSP_SA()
     # test_TSP_GA()
-    SA_function_tests()
+    # SA_function_tests()
+    SA_TSP_tests()
 
 if __name__ == "__main__":
     main()

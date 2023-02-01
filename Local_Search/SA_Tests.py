@@ -58,5 +58,29 @@ def SA_function_tests():
     # print()
 
     
+def SA_TSP_tests():
+    for g in TSP_params:
+        all_states = []
+        all_results = []
+        for k in possible_k:
+            results_k = []
+            states_k = []
+            for schedule in possible_schedules:
+                SA_TSP = simulated_annealing_TSP(TSP_params[g][0], TSP_fitness, TSP_C, 
+                                                 TSP_params[g][1], TSP_params[g][2],
+                                                 TSP_params[g][2]+1, maxProblem)
 
+                state = SA_TSP.run_algorithm(schedule, T_0, T_Final, k)
+                value = SA_TSP.value_function(state)
 
+                states_k.append(np.array2string(state))
+                results_k.append(value)
+            
+            all_states.append(states_k)
+            all_results.append(results_k)
+        
+        schedule_names = [str(i).split(' ')[1] for i in possible_schedules]
+        df_states = pd.DataFrame(all_states, index=possible_k, columns=schedule_names)
+        df_results = pd.DataFrame(all_results, index=possible_k, columns=schedule_names)
+        df_states.to_excel(g + '_states_SA.xlsx', sheet_name=g)
+        df_results.to_excel(g + '_results_SA.xlsx', sheet_name=g)
