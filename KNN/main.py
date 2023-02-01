@@ -19,7 +19,7 @@ def N_Fold_labeled_examples(lock, shared_accuracy_list, n, k, store_all = True, 
     if dataset_name == "labeled_examples":
         dataset = load_labeled_examples()
     elif dataset_name == "EMG_data":
-        dataset = load_EMG_data()
+        dataset = normalize_EMG_dataset(load_EMG_data())
     else:
         raise Exception("Invalid dataset requested")
 
@@ -74,6 +74,21 @@ def concurrent_run_labeled_examples(n, kMin, kMax, store_all = True, shuffle = T
 
     return all_accuracies
 
+def normalize_EMG_dataset(dataset):
+    new_dataset = dataset
+    for index in range(0, 8):
+        attribute_list = []
+        for data_point in new_dataset:
+            attribute_list.append(data_point.attributes[index])
+        
+        min_value = min(attribute_list)
+        max_value = max(attribute_list)
+
+        for data_point in new_dataset:
+            data_point.attributes[index] = (data_point.attributes[index] - min_value) / (max_value - min_value)
+    
+    return new_dataset
+
 def main():
     n = 5
 
@@ -81,12 +96,11 @@ def main():
     kMax = 30
 
     allResults = {}
-    allResults["All_S"] = concurrent_run_labeled_examples(n, kMin, kMax, True, True, "labeled_examples")
-    allResults["All_NS"] = concurrent_run_labeled_examples(n, kMin, kMax, True, False, "labeled_examples")
-    allResults["Err_S"] = concurrent_run_labeled_examples(n, kMin, kMax, False, True, "labeled_examples")
-    allResults["Err_NS"] = concurrent_run_labeled_examples(n, kMin, kMax, False, False, "labeled_examples")
-    graph_results(allResults, "labeled_examples.png")
-
+    allResults["All_S"] = concurrent_run_labeled_examples(n, kMin, kMax, True, True, "EMG_data")
+    allResults["All_NS"] = concurrent_run_labeled_examples(n, kMin, kMax, True, False, "EMG_data")
+    allResults["Err_S"] = concurrent_run_labeled_examples(n, kMin, kMax, False, True, "EMG_data")
+    allResults["Err_NS"] = concurrent_run_labeled_examples(n, kMin, kMax, False, False, "EMG_data")
+    graph_results(allResults, "EMG_Data_Normal.png")
 
     
 

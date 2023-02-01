@@ -17,6 +17,7 @@ import math
 import numpy as np
 
 from SA_Tests import SA_function_tests, SA_TSP_tests
+from GA_Tests import GA_function_tests
 
 def run_general_tests():
     #_plot_f(sphere, *_mesh(-5, 5, -5, 5), title="The Sphere Function")
@@ -29,13 +30,13 @@ def run_general_tests():
     _plot_f(bump, *_mesh(0.001, 100, 0.001, 100), title="The Bump Function")
 
 def run_genetic_algorithm_tests():
-    fitness_function = odd_square
-    population_size = 250
+    fitness_function = bump
+    population_size = 100
     individual_size = 2
     crossover_rate = 1
-    mutation_rate = 0.01
-    min_value = -5*np.pi
-    max_value = 5*np.pi
+    mutation_rate = 0.25
+    min_value = math.sqrt(0.75)
+    max_value = 15
     maxProblem = False
     elitism_applied = True
 
@@ -103,7 +104,8 @@ def main():
     # test_TSP_SA()
     # test_TSP_GA()
     # SA_function_tests()
-    SA_TSP_tests()
+    # SA_TSP_tests()
+    GA_function_tests()
 
 if __name__ == "__main__":
     main()

@@ -33,10 +33,16 @@ dim = 2
 maxProblem = False
 
 def SA_function_tests():
+
+    #Scanning through all of the possible functions in 'f_params'
     for f in f_params.keys():
+
+        #The results(values) and states(2-d vectors) to store from the SA results
         all_results = []
         all_states = [] 
 
+        #For all possible k and schedule combinations,
+        #run the SA algorithm and store them in 'all_results' and 'all_states'
         for k in possible_k:
             results_k = []
             states_k = []
@@ -48,20 +54,23 @@ def SA_function_tests():
                 results_k.append(value)
             all_states.append(states_k)
             all_results.append(results_k)
-    
+
+        #Once the tests are over, save 'all_results' and 'all_states' as Excel spreadsheets
         schedule_names = [str(i).split(' ')[1] for i in possible_schedules]
         df_states = pd.DataFrame(all_states, index=possible_k, columns=schedule_names)
         df_results = pd.DataFrame(all_results, index=possible_k, columns=schedule_names)
         df_states.to_excel(str(f).split(' ')[1] + '_states_SA.xlsx', sheet_name=str(f).split(' ')[1])
         df_results.to_excel(str(f).split(' ')[1] + '_results_SA.xlsx', sheet_name=str(f).split(' ')[1])
-    # print(df)
-    # print()
 
     
 def SA_TSP_tests():
+
+    #Scanning through all possible TSP graph options in 'TSP_params'
     for g in TSP_params:
         all_states = []
         all_results = []
+        #For all possible k and schedule combinations,
+        #run the SA algorithm and store them in 'all_results' and 'all_states'
         for k in possible_k:
             results_k = []
             states_k = []
@@ -79,6 +88,7 @@ def SA_TSP_tests():
             all_states.append(states_k)
             all_results.append(results_k)
         
+        #Once the tests are over, save 'all_results' and 'all_states' as Excel spreadsheets
         schedule_names = [str(i).split(' ')[1] for i in possible_schedules]
         df_states = pd.DataFrame(all_states, index=possible_k, columns=schedule_names)
         df_results = pd.DataFrame(all_results, index=possible_k, columns=schedule_names)

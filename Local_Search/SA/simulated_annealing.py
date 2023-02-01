@@ -10,11 +10,19 @@ import sys
 class simulated_annealing:
     def __init__(self, value_function, constraint_function, min_value = 0, max_value = 10, dim = 2, maxProblem = True):
         #Attributes for the algorithm
+
+        #The value function for evaluating each state
         self.value_function = value_function
+        #The constraint functino to ensure that every state falls with the min/max values
         self.constraints = constraint_function
+
         self.min_value = min_value
         self.max_value = max_value
+
+        #The length of the n-dimension vector states
         self.dim = dim
+
+        #The flag to specify if the algorithm is minimizing or maximizing
         self.maxProblem = maxProblem
 
         #Attributes for graphing
@@ -81,19 +89,29 @@ class simulated_annealing:
         #Case to handle the bump function
         if (str(self.value_function).split(' ')[1] == 'bump'):
             while True:
+                #Pick a random index
                 index = int(random.uniform(0, 1))
 
+                #Calculate the first element of the successor state
                 successor[index] = random.gauss(0, 1) + current[index]
+
+                #Ensure that the first element of the successor falls within the iniitial min_value
+                # and max_value
                 while (not (successor[index] >= self.min_value and successor[index] <= self.max_value)):
                     successor[index] = random.gauss(0, 1) * current[index]
                 
+                #Based on 'bump_c' from 'ga_eval', calculate the next element by inverted
+                #operations of that function to obtain new a min_value and max_value
                 infer_min_value = (0.75) / (successor[index])
                 infer_max_value = (7.5*len(successor)) - (successor[index])
+
+                #Assign the next element
                 if index==0:
                     successor[1] = random.uniform(infer_min_value, infer_max_value)
                 else:
                     successor[0] = random.uniform(infer_min_value, infer_max_value)
                 
+                #Perform a final check to see if the successor is within the bump constraints
                 if (self.constraints(successor)):
                     return successor
 

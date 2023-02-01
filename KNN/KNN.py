@@ -11,7 +11,7 @@ class KNN:
 
     def train(self, train_dataset, store_all = True):
         #Store all variant
-        # print("Training now")
+        print("Training now")
         if store_all:
             for item in train_dataset:
                 self.store.append(item)
@@ -46,7 +46,7 @@ class KNN:
 
 
     def classify(self, item):
-        # print("Classify now")
+        print("Classify now")
         distance_item = {}
         # distance_item: {distance: item}
 

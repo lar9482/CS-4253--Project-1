@@ -122,6 +122,9 @@ class genetic_algorithm:
             if (current_generation % 10 == 0):
                 self.__report_progress(self.population)
 
+        #Baed on minimization or maximization, return the best fitness and individual from the final population.
+        return self.__return_best_individual(self.population)
+
     def __get_elite_individuals(self, weights_to_population):
         return(weights_to_population[self.population_size-1][1], weights_to_population[self.population_size-2][1])
 
@@ -148,6 +151,14 @@ class genetic_algorithm:
 
 
         for i in range(0, self.individual_size):
+            
+            #For the bump function, only one crossover is computed
+            #For the rest of the elements, new values are calculated based on the
+            #constraints of 'bump_c'
+            if (str(self.fitness_function).split(' ')[1] == 'bump' and i != 0):
+                child1[i] = self.__calculate_bump_constraint(child1, i-1)
+                child2[i] = self.__calculate_bump_constraint(child2, i-1)
+                continue
 
             #Get a random splitting point .
             splitpoint = int(random.uniform(0, 52))
@@ -175,19 +186,62 @@ class genetic_algorithm:
     def mutate(self, individual):
         new_individual = np.empty((self.individual_size))
         for individual_index in range(0, self.individual_size):
+
+            #For the case of the bump function, only the first element is mutated.
+            #The rest of the elements are calculated based on 'bump_c'
+            if (str(self.fitness_function).split(' ')[1] == 'bump' and individual_index != 0):
+                new_individual[individual_index] = self.__calculate_bump_constraint(individual, individual_index-1)
+                continue
+                
+            #The current number(gene) is grab from an individual
             gene = individual[individual_index]
+
+            #The gene is converted to a bitstring
             gene_bitstring = real_to_binary(gene, self.min_value, self.max_value)
 
+            #Pick a random position in the bitstring and flip the bit
             bit_index = int(random.uniform(0, len(gene_bitstring)))
             if (gene_bitstring[bit_index] == '0'):
                 gene_bitstring = gene_bitstring[:bit_index] + '1' + gene_bitstring[bit_index+1:]
             else:
                 gene_bitstring = gene_bitstring[:bit_index] + '0' + gene_bitstring[bit_index+1:]
-        
+
+            #Convert the bitstring back into a real number and store it in the new individual
             new_gene = binary_to_real(gene_bitstring, self.min_value, self.max_value)
             new_individual[individual_index] = new_gene
         
+        #Return the newly mutated individual
         return new_individual
+
+    def __calculate_bump_constraint(self, individual, index):
+        sub_individual = individual[0:index+1:1]
+
+        infer_min_value = (0.75) / np.prod(sub_individual)
+        infer_max_value = (15) - np.sum(sub_individual)
+
+        new_individual_element = random.uniform(infer_min_value, infer_max_value)
+        
+        return new_individual_element
+
+    def __return_best_individual(self, population):
+        raw_fitness = np.empty((self.population_size, 1))
+
+        #For every individual, calculate the raw fitness
+        for weight_index in range(0, self.population_size):
+            raw_fitness[weight_index, 0] = self.fitness_function(population[weight_index, :])
+        
+        if (self.maxProblem):
+            max = np.max(raw_fitness)
+            arg_max = np.argmax(raw_fitness)
+            individual = population[arg_max, :]
+
+            return (max, individual)
+        else:
+            min = np.min(raw_fitness)
+            arg_min = np.argmin(raw_fitness)
+            individual = population[arg_min, :]
+            return (min, individual)
+
 
     def __report_progress(self, population):
         raw_fitness = np.empty((self.population_size, 1))
