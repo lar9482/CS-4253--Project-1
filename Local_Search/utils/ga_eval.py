@@ -207,8 +207,7 @@ def bump(x):
 
 def bump_c(x):
     ## \prod_{i=1}^n x_i \geq 0.75
-    np.prod(x) >= 0.75\
-        and np.sum(x) <= 7.5 * len(x)
+    return(np.prod(x) >= 0.75 and np.sum(x) <= 7.5 * len(x))
 
 ################################################################
 

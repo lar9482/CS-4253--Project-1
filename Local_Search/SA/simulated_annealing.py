@@ -31,7 +31,8 @@ class simulated_annealing:
         while True:
             current_temperature = schedule(current_time, T_0, T_Final, k)
             if (current_temperature <= T_Final):
-                self.graph_data(schedule)
+                #Graph the time and state values before returning
+                self.graph_data(schedule, k)
 
                 print('done')
                 return current_state
@@ -45,7 +46,7 @@ class simulated_annealing:
             next_value = self.value_function(next_state)
             delta_E = (next_value - current_value) if self.maxProblem else (current_value - next_value)
             
-            #Based on min/max, always states that improve the situation
+            #Based on min/max, always accept states that improve the situation
             if (delta_E > 0):
                 current_state = next_state
 
@@ -57,6 +58,7 @@ class simulated_annealing:
                 if random_num < probability:
                     current_state = next_state
 
+            #logging the current time and state function to graph later
             self.add_time(current_time)
             self.add_value(self.value_function(current_state))
 
@@ -72,14 +74,29 @@ class simulated_annealing:
 
         return first_state
 
-    #Getting a random state based on the gaussian distribution in relation to the previous state
+    #Getting a random state based on gaussian distribution in relation to the previous state
     def get_random_successor_state(self, current):
         successor = np.empty((self.dim))
         
-        for i in range(0, self.dim):
-            successor[i] = random.gauss(0, 1) + current[i]
-            while (not self.constraints(np.array([successor[i]]))):
+        #Case to handle the bump function
+        if (str(self.value_function).split(' ')[1] == 'bump'):
+            while True:
+                index = random.uniform(0, 1)
+
+                successor[0] = random.gauss(0, 1) + current[int(index)]
+                infer_min_value = (self.min_value) / (successor[0])
+                infer_max_value = (self.max_value) - (successor[0])
+
+                successor[1] = random.uniform(infer_min_value, infer_max_value)
+                if (self.constraints(successor)):
+                    return successor
+
+        #Case for handling the rest of the functions
+        while True:
+            for i in range(0, self.dim):
                 successor[i] = random.gauss(0, 1) + current[i]
+            if (self.constraints(successor)):
+                break
 
         return successor
     
@@ -90,7 +107,8 @@ class simulated_annealing:
     def add_value(self, value):
         self.values.append(value)
 
-    def graph_data(self, schedule):
+    #Saving the results of SA as a graph
+    def graph_data(self, schedule, k):
         plt.plot(self.times, self.values)
         plt.xlabel('time')
         plt.ylabel('value')
@@ -98,8 +116,8 @@ class simulated_annealing:
         file_name = str(self.value_function).split(' ')[1]
 
         if (file_name=='method'):
-            file_name = 'TSP'
-        file_name = file_name + '_' + str(schedule).split(' ')[1] + '.png'
+            file_name = 'TSP' + '_' + str(self.max_value+1)
+        file_name = file_name + '_' + str(schedule).split(' ')[1] + '_' + str(k) +'.png'
 
-        filePath = os.path.join(sys.path[0], "Results", file_name)
+        filePath = os.path.join(sys.path[0], "Results", "SA", file_name)
         plt.savefig(filePath)

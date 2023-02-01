@@ -1,9 +1,6 @@
 from Data_Items.Item import Item
 import math
 
-placeholder_dataset = [Item(0, [0, 0])]
-placeholder_item = Item(0, [0, 0])
-
 class KNN:
     def __init__(self, k = 15):
         if k % 2 == 0:
@@ -12,7 +9,7 @@ class KNN:
         self.k = k
         self.store = []
 
-    def train(self, train_dataset = placeholder_dataset, store_all = True):
+    def train(self, train_dataset, store_all = True):
         #Store all variant
         print("Training now")
         if store_all:
@@ -84,7 +81,7 @@ class KNN:
         return max(className_to_distanceCount, key=className_to_distanceCount.get)
         
 
-    def eval(self, test_dataset = placeholder_dataset):
+    def eval(self, test_dataset):
         correct_guesses = 0
         for item in test_dataset:
             if (item.class_name == self.classify(item)):
