@@ -17,7 +17,7 @@ import math
 import numpy as np
 
 from SA_Tests import SA_function_tests, SA_TSP_tests
-from GA_Tests import GA_function_tests
+from GA_Tests import GA_function_tests, GA_TSP_tests
 
 def run_general_tests():
     #_plot_f(sphere, *_mesh(-5, 5, -5, 5), title="The Sphere Function")
@@ -105,7 +105,8 @@ def main():
     # test_TSP_GA()
     # SA_function_tests()
     # SA_TSP_tests()
-    GA_function_tests()
+    # GA_function_tests()
+    GA_TSP_tests()
 
 if __name__ == "__main__":
     main()

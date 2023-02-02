@@ -17,7 +17,6 @@ f_params = {sphere: [sphere_c, -5, 5],
                    langermann: [langermann_c, 0, 10],
                    odd_square: [odd_square_c, -5*np.pi, 5*np.pi],
                    bump: [bump_c, math.sqrt(0.75), 15]}
-# f_params = {bump: [bump_c, math.sqrt(0.75), 15]}
 
 TSP_params = {'TSP_15': [TSP_15, 0, 14],
               'TSP_26': [TSP_26, 0, 25]}

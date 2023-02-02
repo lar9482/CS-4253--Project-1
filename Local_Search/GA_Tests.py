@@ -54,3 +54,29 @@ def GA_function_tests():
             df_results = pd.DataFrame(all_results, index=possible_crossover, columns=possible_mutation)
             df_states.to_excel(str(f).split(' ')[1] + '_' +str(population) +'_states_GA.xlsx', sheet_name=str(f).split(' ')[1])
             df_results.to_excel(str(f).split(' ')[1] + '_'+str(population) +'_results_GA.xlsx', sheet_name=str(f).split(' ')[1])
+
+
+def GA_TSP_tests():
+    for graph in TSP_params.keys():
+        for population in possible_population:
+            all_states = []
+            all_results = []
+            for cross_over in possible_crossover:
+                states_cross = []
+                results_cross = []
+                for mutation in possible_mutation:
+                    TS_GA = genetic_algorithm_TSP(TSP_params[graph][0], TSP_fitness, TSP_C, population, TSP_params[graph][2]+1,
+                                                 cross_over, mutation, TSP_params[graph][1], TSP_params[graph][2],
+                                                 maxProblem, elitism_applied)
+                    (fitness, individual) = TS_GA.run_algorithm(num_generation)
+
+                    states_cross.append(np.array2string(individual))
+                    results_cross.append(fitness)
+
+                all_states.append(states_cross)
+                all_results.append(results_cross)
+            
+            df_states = pd.DataFrame(all_states, index=possible_crossover, columns=possible_mutation)
+            df_results = pd.DataFrame(all_results, index=possible_crossover, columns=possible_mutation)
+            df_states.to_excel(graph + '_' +str(population) +'_states_GA.xlsx', sheet_name=graph)
+            df_results.to_excel(graph + '_'+str(population) +'_results_GA.xlsx', sheet_name=graph)
