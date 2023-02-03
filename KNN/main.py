@@ -14,16 +14,16 @@ from multiprocessing import Process, Lock, Manager
 def N_Fold_labeled_examples(lock, shared_accuracy_list, n, k, store_all = True, shuffle = True, dataset_name = "labeled_examples"):
 
 
-    #Loading in the labeled examples dataset
+    #Loading in a dataset
     dataset = []
     if dataset_name == "labeled_examples":
         dataset = load_labeled_examples()
     elif dataset_name == "EMG_data":
-        dataset = normalize_EMG_dataset(load_EMG_data())
+        dataset = load_EMG_data()
     else:
         raise Exception("Invalid dataset requested")
 
-    #shuffling the dataset if required to.
+    #shuffling the dataset if requested
     if (shuffle):
         random.shuffle(dataset)
 
@@ -43,7 +43,8 @@ def N_Fold_labeled_examples(lock, shared_accuracy_list, n, k, store_all = True, 
 def concurrent_run_labeled_examples(n, kMin, kMax, store_all = True, shuffle = True, dataset_name = "labeled_examples"):
     start_time = time.time()
     all_accuracies = []
-
+    
+    #Setting up manager to concurrent execution
     with Manager() as manager:
         
         all_processes = []
@@ -51,43 +52,32 @@ def concurrent_run_labeled_examples(n, kMin, kMax, store_all = True, shuffle = T
         shared_accuracy_list = manager.list()
 
         
+        #For all possible k values, create a new subprocess to run KNN on
         for k in range(kMin, kMax+1):
             if (k % 2 == 0):
                 continue
 
             process = Process(target=N_Fold_labeled_examples, args=(lock, shared_accuracy_list, n, k, store_all, shuffle, dataset_name))
             all_processes.append(process)
-            
+        
+        #Begin all subprocesses
         for process in all_processes:
             process.start()
-    
+
+        #Wait for all subprocesses to finish before continuing
         for process in all_processes:
             process.join()
 
+        #Get all of the results from the subprocesses
         all_accuracies = list(shared_accuracy_list)
 
     print(time.time() - start_time)
 
-    #Sorting the accuracies based on k
+    #Sorting the accuracies based on the value of k
     all_accuracies = sorted(all_accuracies, key = itemgetter(3))
     
 
     return all_accuracies
-
-def normalize_EMG_dataset(dataset):
-    new_dataset = dataset
-    for index in range(0, 8):
-        attribute_list = []
-        for data_point in new_dataset:
-            attribute_list.append(data_point.attributes[index])
-        
-        min_value = min(attribute_list)
-        max_value = max(attribute_list)
-
-        for data_point in new_dataset:
-            data_point.attributes[index] = (data_point.attributes[index] - min_value) / (max_value - min_value)
-    
-    return new_dataset
 
 def main():
     n = 5

@@ -9,7 +9,6 @@ import numpy as np
 import pandas as pd
 import math
 
-# {function_name: [constraint_function, min_value, max_value]}
 f_params = {sphere: [sphere_c, -5, 5],
                    griew: [griew_c, 0, 100],
                    shekel: [shekel_c, 0, 10],
@@ -30,8 +29,12 @@ maxProblem = False
 elitism_applied = True
 
 def GA_function_tests():
-    for f in f_params.keys():
 
+    #Scanning through all of the function domain options
+    for f in f_params.keys():
+        
+        #For every possible combination of population_size, crossover rate, and mutation rate,
+        #run the genetic algorithm and collect the results
         for population in possible_population:
             all_states = []
             all_results = []
@@ -50,6 +53,7 @@ def GA_function_tests():
                 all_states.append(states_cross)
                 all_results.append(results_cross)
             
+            #Saving all of the results into an excel spreadsheet
             df_states = pd.DataFrame(all_states, index=possible_crossover, columns=possible_mutation)
             df_results = pd.DataFrame(all_results, index=possible_crossover, columns=possible_mutation)
             df_states.to_excel(str(f).split(' ')[1] + '_' +str(population) +'_states_GA.xlsx', sheet_name=str(f).split(' ')[1])
@@ -57,7 +61,12 @@ def GA_function_tests():
 
 
 def GA_TSP_tests():
+
+    #Scanning through all of the TSP graph options
     for graph in TSP_params.keys():
+
+        #For every possible combination of population_size, crossover rate, and mutation rate,
+        #run the genetic algorithm and collect the results
         for population in possible_population:
             all_states = []
             all_results = []
@@ -76,6 +85,7 @@ def GA_TSP_tests():
                 all_states.append(states_cross)
                 all_results.append(results_cross)
             
+            #Saving all of the results into an excel spreadsheet
             df_states = pd.DataFrame(all_states, index=possible_crossover, columns=possible_mutation)
             df_results = pd.DataFrame(all_results, index=possible_crossover, columns=possible_mutation)
             df_states.to_excel(graph + '_' +str(population) +'_states_GA.xlsx', sheet_name=graph)
